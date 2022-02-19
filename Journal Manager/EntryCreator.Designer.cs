@@ -29,8 +29,8 @@ namespace Journal_Manager
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.contentLabel = new System.Windows.Forms.Label();
+            this.contentBox = new System.Windows.Forms.RichTextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,27 +38,27 @@ namespace Journal_Manager
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.titleLabel = new System.Windows.Forms.Label();
+            this.titleBox = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label1
+            // contentLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 33);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(109, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Write contents here...";
+            this.contentLabel.AutoSize = true;
+            this.contentLabel.Location = new System.Drawing.Point(10, 58);
+            this.contentLabel.Name = "contentLabel";
+            this.contentLabel.Size = new System.Drawing.Size(109, 13);
+            this.contentLabel.TabIndex = 0;
+            this.contentLabel.Text = "Write contents here...";
             // 
-            // richTextBox1
+            // contentBox
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(12, 49);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(772, 220);
-            this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = "";
+            this.contentBox.Location = new System.Drawing.Point(12, 74);
+            this.contentBox.Name = "contentBox";
+            this.contentBox.Size = new System.Drawing.Size(772, 220);
+            this.contentBox.TabIndex = 1;
+            this.contentBox.Text = "";
             // 
             // menuStrip1
             // 
@@ -114,31 +114,31 @@ namespace Journal_Manager
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.ToolTipText = "Exit the application - unsaved changes will be lost";
             // 
-            // label2
+            // titleLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 276);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(110, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Journal Title (optional)";
+            this.titleLabel.AutoSize = true;
+            this.titleLabel.Location = new System.Drawing.Point(9, 34);
+            this.titleLabel.Name = "titleLabel";
+            this.titleLabel.Size = new System.Drawing.Size(110, 13);
+            this.titleLabel.TabIndex = 3;
+            this.titleLabel.Text = "Journal Title (optional)";
             // 
-            // textBox1
+            // titleBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(128, 273);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(656, 20);
-            this.textBox1.TabIndex = 4;
+            this.titleBox.Location = new System.Drawing.Point(128, 31);
+            this.titleBox.Name = "titleBox";
+            this.titleBox.Size = new System.Drawing.Size(656, 20);
+            this.titleBox.TabIndex = 4;
             // 
             // EntryCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 342);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.richTextBox1);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(800, 311);
+            this.Controls.Add(this.titleBox);
+            this.Controls.Add(this.titleLabel);
+            this.Controls.Add(this.contentBox);
+            this.Controls.Add(this.contentLabel);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "EntryCreator";
@@ -152,8 +152,8 @@ namespace Journal_Manager
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Label contentLabel;
+        private System.Windows.Forms.RichTextBox contentBox;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
@@ -161,8 +161,8 @@ namespace Journal_Manager
         private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label titleLabel;
+        private System.Windows.Forms.TextBox titleBox;
     }
 }
 

@@ -1,7 +1,7 @@
 ﻿
 namespace Journal_Manager
 {
-    partial class EntryList
+    partial class MainMenu
     {
         /// <summary>
         /// Required designer variable.
@@ -32,7 +32,7 @@ namespace Journal_Manager
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -41,52 +41,51 @@ namespace Journal_Manager
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(13, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 24);
+            this.label1.Size = new System.Drawing.Size(167, 24);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Entries List";
+            this.label1.Text = "Journal Manager";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(251, 40);
+            this.button1.Location = new System.Drawing.Point(17, 41);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(87, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "View Selected";
+            this.button1.Size = new System.Drawing.Size(163, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "New Entry";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(251, 69);
+            this.button2.Location = new System.Drawing.Point(17, 70);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(87, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Edit Selected";
+            this.button2.Size = new System.Drawing.Size(163, 23);
+            this.button2.TabIndex = 2;
+            this.button2.Text = "View Entries";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // listView1
+            // button3
             // 
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(17, 41);
-            this.listView1.MultiSelect = false;
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(228, 397);
-            this.listView1.TabIndex = 4;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.List;
+            this.button3.Location = new System.Drawing.Point(17, 99);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(163, 23);
+            this.button3.TabIndex = 3;
+            this.button3.Text = "Preferences";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // EntryViewer
+            // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(346, 450);
-            this.Controls.Add(this.listView1);
+            this.ClientSize = new System.Drawing.Size(203, 134);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
-            this.Name = "EntryViewer";
-            this.Text = "EntryViewer";
+            this.Name = "MainMenu";
+            this.Text = "MainMenu";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -97,6 +96,6 @@ namespace Journal_Manager
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.Button button3;
     }
 }

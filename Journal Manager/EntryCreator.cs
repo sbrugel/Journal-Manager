@@ -1,22 +1,50 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Journal_Manager
 {
     public partial class EntryCreator : Form
     {
-        string saveDirectory = "C:\\Users\\sbrug\\Documents\\journaltest"; // change this later
-        public EntryCreator()
+        static readonly string DATA_FILE = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\JournalManager\\data.txt";
+        string saveDirectory = File.ReadLines(DATA_FILE).ElementAtOrDefault(0); // first line
+        public EntryCreator(bool readOnly, string toLoad = "")
         {
             InitializeComponent();
+            if (readOnly)
+            {
+                menuStrip1.Visible = false;
+                contentBox.ReadOnly = true;
+                titleBox.ReadOnly = true;
+
+                titleLabel.Text = "Journal Title";
+                contentLabel.Text = "Content";
+            }
+
+            if (!toLoad.Equals(""))
+            {
+                try
+                {
+                    string rawText = File.ReadAllText(toLoad);
+                    string contents = SubstringFromTo(rawText, 0, rawText.IndexOf("[TITLE]"));
+                    string title = SubstringFromTo(rawText, rawText.IndexOf("[TITLE]") + 7, rawText.IndexOf("[/TITLE]"));
+
+                    contentBox.Text = contents;
+                    titleBox.Text = title.Equals("None") ? "" : title;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("An error occurred while loading: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
         private void SaveFile(string saveAs)
         {
             try
             {
-                File.WriteAllText(saveAs, richTextBox1.Text);
-                File.AppendAllText(saveAs, "[TITLE]" + textBox1.Text + "[/TITLE]");
+                File.WriteAllText(saveAs, contentBox.Text);
+                File.AppendAllText(saveAs, "[TITLE]" + titleBox.Text + "[/TITLE]");
                 MessageBox.Show("Saved as " + saveAs, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -41,13 +69,14 @@ namespace Journal_Manager
         }
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFile(Path.Combine(saveDirectory, DateTime.Now.ToString("yyyyMMdd-HHmmss") + ".entry"));
+            SaveFile(Path.Combine(saveDirectory, DateTime.Now.ToString("yyyy-MM-dd_HHmmss") + ".entry"));
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFile = new SaveFileDialog();
-            saveFile.Filter = "Journal Entry|*.entry"; // what to display on the file dialog
+            saveFile.InitialDirectory = saveDirectory;
+            saveFile.Filter = "Journal Entry|*.entry";
             saveFile.Title = "Save Entry";
             DialogResult result = saveFile.ShowDialog();
 
@@ -60,7 +89,8 @@ namespace Journal_Manager
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog loadFile = new OpenFileDialog();
-            loadFile.Filter = "Journal Entry| *.entry"; // what to display on the file dialog
+            loadFile.InitialDirectory = saveDirectory;
+            loadFile.Filter = "Journal Entry| *.entry";
             loadFile.Title = "Load Entry";
             DialogResult result = loadFile.ShowDialog();
 
@@ -72,15 +102,14 @@ namespace Journal_Manager
                     string contents = SubstringFromTo(rawText, 0, rawText.IndexOf("[TITLE]"));
                     string title = SubstringFromTo(rawText, rawText.IndexOf("[TITLE]") + 7, rawText.IndexOf("[/TITLE]"));
 
-                    richTextBox1.Text = contents;
-                    textBox1.Text = title.Equals("None") ? "" : title;
+                    contentBox.Text = contents;
+                    titleBox.Text = title.Equals("None") ? "" : title;
 
                     MessageBox.Show("File loaded!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 } catch (Exception ex)
                 {
                     MessageBox.Show("An error occurred while loading: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                
             }
         }
     }

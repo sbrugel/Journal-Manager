@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Journal_Manager
@@ -16,7 +14,15 @@ namespace Journal_Manager
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new EntryCreator());
+            
+            if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\JournalManager\\data.txt"))
+            {
+                Application.Run(new DataLocation());
+            } 
+            else
+            {
+                Application.Run(new MainMenu());
+            }
         }
     }
 }
