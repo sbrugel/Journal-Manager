@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Journal_Manager
 {
-    public partial class Form1 : Form
+    public partial class EntryViewer : Form
     {
-        public Form1()
+        public EntryViewer()
         {
             InitializeComponent();
         }
