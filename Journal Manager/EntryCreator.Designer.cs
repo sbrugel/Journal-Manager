@@ -40,6 +40,8 @@ namespace Journal_Manager
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.titleLabel = new System.Windows.Forms.Label();
             this.titleBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.colorChoice = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -130,11 +132,39 @@ namespace Journal_Manager
             this.titleBox.Size = new System.Drawing.Size(656, 20);
             this.titleBox.TabIndex = 4;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 301);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(52, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Set color:";
+            // 
+            // colorChoice
+            // 
+            this.colorChoice.FormattingEnabled = true;
+            this.colorChoice.Items.AddRange(new object[] {
+            "None",
+            "Red",
+            "Orange",
+            "Yellow",
+            "Green",
+            "Blue",
+            "Purple"});
+            this.colorChoice.Location = new System.Drawing.Point(71, 298);
+            this.colorChoice.Name = "colorChoice";
+            this.colorChoice.Size = new System.Drawing.Size(121, 21);
+            this.colorChoice.TabIndex = 6;
+            this.colorChoice.SelectedIndexChanged += new System.EventHandler(this.colorChoice_SelectedIndexChanged);
+            // 
             // EntryCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 311);
+            this.ClientSize = new System.Drawing.Size(800, 358);
+            this.Controls.Add(this.colorChoice);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.titleBox);
             this.Controls.Add(this.titleLabel);
             this.Controls.Add(this.contentBox);
@@ -163,6 +193,8 @@ namespace Journal_Manager
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Label titleLabel;
         private System.Windows.Forms.TextBox titleBox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox colorChoice;
     }
 }
 
