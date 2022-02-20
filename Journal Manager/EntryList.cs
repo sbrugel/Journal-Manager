@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Journal_Manager
@@ -28,6 +25,7 @@ namespace Journal_Manager
             string[] entries = Directory.GetFiles(saveDirectory);
             foreach (string entry in entries)
             {
+                if (!Path.GetExtension(entry).Equals(".entry")) return;
                 string rawText = File.ReadAllText(entry);
                 string title = SubstringFromTo(rawText, rawText.IndexOf("<TITLE>") + 7, rawText.IndexOf("</TITLE>"));
                 string color = SubstringFromTo(rawText, rawText.IndexOf("<COLOR>") + 7, rawText.IndexOf("</COLOR>"));
@@ -38,7 +36,7 @@ namespace Journal_Manager
                 listView1.Items.Insert(0, title.Equals("None") ? File.GetCreationTime(entry).ToString() : title); // set display to title, otherwise file creation time
                 listView1.Items[0].BackColor = Color.FromArgb(Int32.Parse(red), Int32.Parse(green), Int32.Parse(blue));
                 listView1.Items[0].ToolTipText = "Created on " + File.GetCreationTime(entry).ToString();
-                entryNames.Add(entry);
+                entryNames.Insert(0, entry);
             }
         }
         public string SubstringFromTo(string str, int from, int to)
