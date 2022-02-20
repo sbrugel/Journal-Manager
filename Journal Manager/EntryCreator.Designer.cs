@@ -42,6 +42,8 @@ namespace Journal_Manager
             this.titleBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.colorChoice = new System.Windows.Forms.ComboBox();
+            this.previousEntry = new System.Windows.Forms.Button();
+            this.nextEntry = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -158,11 +160,33 @@ namespace Journal_Manager
             this.colorChoice.TabIndex = 6;
             this.colorChoice.SelectedIndexChanged += new System.EventHandler(this.colorChoice_SelectedIndexChanged);
             // 
+            // previousEntry
+            // 
+            this.previousEntry.Location = new System.Drawing.Point(12, 323);
+            this.previousEntry.Name = "previousEntry";
+            this.previousEntry.Size = new System.Drawing.Size(107, 23);
+            this.previousEntry.TabIndex = 7;
+            this.previousEntry.Text = "Previous Entry";
+            this.previousEntry.UseVisualStyleBackColor = true;
+            this.previousEntry.Click += new System.EventHandler(this.previousEntry_Click);
+            // 
+            // nextEntry
+            // 
+            this.nextEntry.Location = new System.Drawing.Point(677, 323);
+            this.nextEntry.Name = "nextEntry";
+            this.nextEntry.Size = new System.Drawing.Size(107, 23);
+            this.nextEntry.TabIndex = 8;
+            this.nextEntry.Text = "Next Entry";
+            this.nextEntry.UseVisualStyleBackColor = true;
+            this.nextEntry.Click += new System.EventHandler(this.nextEntry_Click);
+            // 
             // EntryCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 358);
+            this.Controls.Add(this.nextEntry);
+            this.Controls.Add(this.previousEntry);
             this.Controls.Add(this.colorChoice);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.titleBox);
@@ -195,6 +219,8 @@ namespace Journal_Manager
         private System.Windows.Forms.TextBox titleBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox colorChoice;
+        private System.Windows.Forms.Button previousEntry;
+        private System.Windows.Forms.Button nextEntry;
     }
 }
 

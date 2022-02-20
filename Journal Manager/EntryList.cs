@@ -13,16 +13,19 @@ namespace Journal_Manager
         static readonly string DATA_FILE = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\JournalManager\\data.txt";
         string saveDirectory = File.ReadLines(DATA_FILE).ElementAtOrDefault(0); // first line
         List<string> entryNames = new List<string>();
+        string[] entries;
         public EntryList()
         {
             InitializeComponent();
+            viewButton.Enabled = listView1.SelectedIndices.Count != 0;
+            editButton.Enabled = listView1.SelectedIndices.Count != 0;
             RefreshFiles();
         }
         private void RefreshFiles()
         {
             listView1.Items.Clear();
             entryNames.Clear();
-            string[] entries = Directory.GetFiles(saveDirectory);
+            entries = Directory.GetFiles(saveDirectory);
             foreach (string entry in entries)
             {
                 if (!Path.GetExtension(entry).Equals(".entry")) return;
@@ -68,11 +71,11 @@ namespace Journal_Manager
 
             return offset;
         }
-        private void viewButton_Click(object sender, EventArgs e)
+        private void viewButton_Click(object sender, EventArgs e) // this goes for both the view button click and a double click on the list
         {
             try
             {
-                new EntryCreator(true, entryNames[listView1.SelectedIndices[0]]).Show();
+                new EntryCreator(true, entryNames[listView1.SelectedIndices[0]], entries).Show();
             }
             catch (Exception ex)
             {
@@ -95,6 +98,12 @@ namespace Journal_Manager
         private void refreshButton_Click(object sender, EventArgs e)
         {
             RefreshFiles();
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            viewButton.Enabled = listView1.SelectedIndices.Count != 0;
+            editButton.Enabled = listView1.SelectedIndices.Count != 0;
         }
     }
 }

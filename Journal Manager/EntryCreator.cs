@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -11,7 +12,10 @@ namespace Journal_Manager
         static readonly string DATA_FILE = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\JournalManager\\data.txt";
         string saveDirectory = File.ReadLines(DATA_FILE).ElementAtOrDefault(0); // first line
         string color = "255/255/255";
-        public EntryCreator(bool readOnly, string toLoad = "")
+        string currentlyLoaded;
+        string[] entries;
+        List<string> entriesList;
+        public EntryCreator(bool readOnly, string toLoad = "", string[] otherFiles = null)
         {
             InitializeComponent();
             if (readOnly)
@@ -23,25 +27,30 @@ namespace Journal_Manager
 
                 titleLabel.Text = "Journal Title";
                 contentLabel.Text = "Content";
+
+                this.Text = "View Entry";
+                currentlyLoaded = toLoad;
+                entries = otherFiles;
+                entriesList = entries.OfType<string>().ToList();
+
+                if (entriesList.IndexOf(toLoad) == 0)
+                {
+                    previousEntry.Enabled = false;
+                }
+                if (entriesList.IndexOf(toLoad) == entriesList.Count - 1)
+                {
+                    nextEntry.Enabled = false;
+                }
+            }
+            else
+            {
+                previousEntry.Visible = false;
+                nextEntry.Visible = false;
             }
 
             if (!toLoad.Equals(""))
             {
-                try
-                {
-                    string rawText = File.ReadAllText(toLoad);
-                    string contents = SubstringFromTo(rawText, 0, rawText.IndexOf("<TITLE>"));
-                    string title = SubstringFromTo(rawText, rawText.IndexOf("<TITLE>") + 7, rawText.IndexOf("</TITLE>"));
-                    color = SubstringFromTo(rawText, rawText.IndexOf("<COLOR>") + 7, rawText.IndexOf("</COLOR>"));
-
-                    contentBox.Text = contents;
-                    titleBox.Text = title.Equals("None") ? "" : title;
-                    GetColor();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("An error occurred while loading: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                LoadFile(toLoad);
             }
         }
         private void SaveFile(string saveAs)
@@ -56,6 +65,24 @@ namespace Journal_Manager
             catch (Exception ex)
             {
                 MessageBox.Show("An error occurred while saving: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void LoadFile(String toLoad)
+        {
+            try
+            {
+                string rawText = File.ReadAllText(toLoad);
+                string contents = SubstringFromTo(rawText, 0, rawText.IndexOf("<TITLE>"));
+                string title = SubstringFromTo(rawText, rawText.IndexOf("<TITLE>") + 7, rawText.IndexOf("</TITLE>"));
+                color = SubstringFromTo(rawText, rawText.IndexOf("<COLOR>") + 7, rawText.IndexOf("</COLOR>"));
+
+                contentBox.Text = contents;
+                titleBox.Text = title.Equals("None") ? "" : title;
+                GetColor();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while loading: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void SetColor(string col)
@@ -102,6 +129,38 @@ namespace Journal_Manager
             string green = SubstringFromTo(color, indexOfNth(color, "/", 0)+1, indexOfNth(color, "/", 1));
             string blue = SubstringFromTo(color, indexOfNth(color, "/", 1)+1, color.Length);
             contentBox.BackColor = Color.FromArgb(Int32.Parse(red), Int32.Parse(green), Int32.Parse(blue));
+
+            string colorStr = red + "/" + green + "/" + blue;
+
+            if (colorStr.Equals("255/255/255"))
+            {
+                colorChoice.SelectedItem = "None";
+            }
+            else if (colorStr.Equals("255/130/130"))
+            {
+                colorChoice.SelectedItem = "Red";
+            }
+            else if (colorStr.Equals("255/184/130"))
+            {
+                colorChoice.SelectedItem = "Orange";
+            }
+            else if (colorStr.Equals("255/240/130"))
+            {
+                colorChoice.SelectedItem = "Yellow";
+            }
+            else if (colorStr.Equals("130/255/132"))
+            {
+                colorChoice.SelectedItem = "Green";
+            }
+            else if (colorStr.Equals("130/172/255"))
+            {
+                colorChoice.SelectedItem = "Blue";
+            }
+            else if (colorStr.Equals("180/130/255"))
+            {
+                colorChoice.SelectedItem = "Purple";
+            }
+
         }
         private string SubstringFromTo(string str, int from, int to)
         {
@@ -161,26 +220,27 @@ namespace Journal_Manager
 
             if (result == DialogResult.OK)
             {
-                try
-                {
-                    string rawText = File.ReadAllText(loadFile.FileName);
-                    string contents = SubstringFromTo(rawText, 0, rawText.IndexOf("<TITLE>"));
-                    string title = SubstringFromTo(rawText, rawText.IndexOf("<TITLE>") + 7, rawText.IndexOf("</TITLE>"));
-
-                    contentBox.Text = contents;
-                    titleBox.Text = title.Equals("None") ? "" : title;
-
-                    MessageBox.Show("File loaded!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                } catch (Exception ex)
-                {
-                    MessageBox.Show("An error occurred while loading: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                LoadFile(loadFile.FileName);
             }
         }
 
         private void colorChoice_SelectedIndexChanged(object sender, EventArgs e)
         {
             SetColor(colorChoice.SelectedItem.ToString());
+        }
+
+        private void previousEntry_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            this.Close();
+            new EntryCreator(true, entries[entriesList.IndexOf(currentlyLoaded) - 1], entries).Show();
+        }
+
+        private void nextEntry_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            this.Close();
+            new EntryCreator(true, entries[entriesList.IndexOf(currentlyLoaded) + 1], entries).Show();
         }
     }
 }
