@@ -29,6 +29,7 @@ namespace Journal_Manager
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntryList));
             this.label1 = new System.Windows.Forms.Label();
             this.viewButton = new System.Windows.Forms.Button();
             this.editButton = new System.Windows.Forms.Button();
@@ -100,6 +101,7 @@ namespace Journal_Manager
             this.Controls.Add(this.editButton);
             this.Controls.Add(this.viewButton);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "EntryList";
             this.Text = "Entry Viewer";
             this.ResumeLayout(false);

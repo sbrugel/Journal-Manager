@@ -34,9 +34,12 @@ namespace Journal_Manager
                 using (StreamWriter sw = File.CreateText(path))
                 {
                     sw.WriteLine(textBox2.Text);
+                    sw.WriteLine("10"); // default font size
+                    sw.WriteLine("X"); // triggers default font (whatever Windows Forms uses)
                 }
             }
-            Dispose(); // change later to main menu
+            SetVisibleCore(false);
+            new MainMenu().Show();
         }
     }
 }

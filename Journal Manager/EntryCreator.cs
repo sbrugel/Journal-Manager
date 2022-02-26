@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Text;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -11,13 +12,28 @@ namespace Journal_Manager
     {
         static readonly string DATA_FILE = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\JournalManager\\data.txt";
         string saveDirectory = File.ReadLines(DATA_FILE).ElementAtOrDefault(0); // first line
+        int fontSize = Int32.Parse(File.ReadLines(DATA_FILE).ElementAtOrDefault(1));
+        string fontName = File.ReadLines(DATA_FILE).ElementAtOrDefault(2);
+
         string color = "255/255/255";
         string currentlyLoaded;
         string[] entries;
         List<string> entriesList;
+        bool readOnly = false;
         public EntryCreator(bool readOnly, string toLoad = "", string[] otherFiles = null)
         {
             InitializeComponent();
+
+            string font = File.ReadLines(DATA_FILE).ElementAtOrDefault(2);
+            if (!font.Equals("X"))
+            {
+                contentBox.Font = new Font(fontName, fontSize);
+            } else
+            {
+                contentBox.Font = new Font("Microsoft Sans Serif", fontSize);
+            }
+            this.readOnly = readOnly;
+
             if (readOnly)
             {
                 menuStrip1.Visible = false;
@@ -28,7 +44,7 @@ namespace Journal_Manager
                 titleLabel.Text = "Journal Title";
                 contentLabel.Text = "Content";
 
-                this.Text = "View Entry";
+                Text = "View Entry";
                 currentlyLoaded = toLoad;
                 entries = otherFiles;
                 entriesList = entries.OfType<string>().ToList();
@@ -79,10 +95,43 @@ namespace Journal_Manager
                 contentBox.Text = contents;
                 titleBox.Text = title.Equals("None") ? "" : title;
                 GetColor();
+
+                if (readOnly) // format text only if not editing
+                {
+                    contents = contents.Replace("[b]", "\\b ");
+                    contents = contents.Replace("[/b]", "\\b0 ");
+                    contents = contents.Replace("[i]", "\\i ");
+                    contents = contents.Replace("[/i]", "\\i0 ");
+                    contents = contents.Replace("[u]", "\\ulw ");
+                    contents = contents.Replace("[/u]", "\\ulw0 ");
+                    contents = contents.Replace("[h1]", "\\fs" + (fontSize * 4) + " ");
+                    contents = contents.Replace("[/h1]", "\\fs" + (fontSize * 2));
+                    contents = contents.Replace("[h2]", "\\fs" + (fontSize * 3) + " ");
+                    contents = contents.Replace("[/h2]", "\\fs" + (fontSize * 2));
+                    contents = contents.Replace("[h3]", "\\fs" + (int)(fontSize * 2.5) + " ");
+                    contents = contents.Replace("[/h3]", "\\fs" + (fontSize * 2));
+                    string[] lines = contents.Split(
+                        new string[] { "\r\n", "\r", "\n" },
+                        StringSplitOptions.None
+                    );
+
+                    string textToRtf = "";
+                    contentBox.Rtf = @"{\rtf1\ansi ";
+                    foreach (string line in lines)
+                    {
+                        if (line.Equals(""))
+                        {
+                            textToRtf += @" \par\par ";
+                        }
+                        else textToRtf += line;
+                        // contentBox.Rtf = contentBox.Rtf + contents;
+                    }
+                    contentBox.Rtf = @"{\rtf1\ansi " + textToRtf + "}";
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An error occurred while loading: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("An error occurred while loading: " + ex, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void SetColor(string col)
@@ -231,16 +280,23 @@ namespace Journal_Manager
 
         private void previousEntry_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            this.Close();
-            new EntryCreator(true, entries[entriesList.IndexOf(currentlyLoaded) - 1], entries).Show();
+            LoadFile(entries[entriesList.IndexOf(currentlyLoaded) - 1]);
+            currentlyLoaded = entries[entriesList.IndexOf(currentlyLoaded) - 1];
+            previousEntry.Enabled = (entriesList.IndexOf(currentlyLoaded) != 0);
+            nextEntry.Enabled = (entriesList.IndexOf(currentlyLoaded) != entriesList.Count - 1);
         }
 
         private void nextEntry_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            this.Close();
-            new EntryCreator(true, entries[entriesList.IndexOf(currentlyLoaded) + 1], entries).Show();
+            LoadFile(entries[entriesList.IndexOf(currentlyLoaded) + 1]);
+            currentlyLoaded = entries[entriesList.IndexOf(currentlyLoaded) + 1];
+            previousEntry.Enabled = (entriesList.IndexOf(currentlyLoaded) != 0);
+            nextEntry.Enabled = (entriesList.IndexOf(currentlyLoaded) != entriesList.Count - 1);
+        }
+
+        private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new PreferencesWin().Show();
         }
     }
 }

@@ -29,6 +29,7 @@ namespace Journal_Manager
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntryCreator));
             this.contentLabel = new System.Windows.Forms.Label();
             this.contentBox = new System.Windows.Forms.RichTextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -110,6 +111,7 @@ namespace Journal_Manager
             this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
             this.preferencesToolStripMenuItem.Text = "Preferences";
             this.preferencesToolStripMenuItem.ToolTipText = "Change settings";
+            this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
             // 
             // quitToolStripMenuItem
             // 
@@ -194,6 +196,7 @@ namespace Journal_Manager
             this.Controls.Add(this.contentBox);
             this.Controls.Add(this.contentLabel);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "EntryCreator";
             this.Text = "Entry Creator";

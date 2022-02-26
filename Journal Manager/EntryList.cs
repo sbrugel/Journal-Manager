@@ -60,7 +60,7 @@ namespace Journal_Manager
         public static int indexOfNth(string str, string value, int nth = 0)
         {
             if (nth < 0)
-                throw new ArgumentException("Can not find a negative index of substring in string. Must start with 0");
+                throw new ArgumentException("Can't find a negative index of substring in string. Must start with 0");
 
             int offset = str.IndexOf(value);
             for (int i = 0; i < nth; i++)
@@ -79,7 +79,7 @@ namespace Journal_Manager
             }
             catch (Exception ex)
             {
-                MessageBox.Show("You didn't select an entry!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Sorry, an error occured while loading: " + ex, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -91,7 +91,7 @@ namespace Journal_Manager
             }
             catch (Exception ex)
             {
-                MessageBox.Show("You didn't select an entry!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Sorry, an error occured while loading: " + ex, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
