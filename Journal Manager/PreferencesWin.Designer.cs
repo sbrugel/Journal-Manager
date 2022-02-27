@@ -83,7 +83,7 @@ namespace Journal_Manager
             this.journalDirButton.Name = "journalDirButton";
             this.journalDirButton.Size = new System.Drawing.Size(75, 23);
             this.journalDirButton.TabIndex = 9;
-            this.journalDirButton.Text = "button1";
+            this.journalDirButton.Text = "Select";
             this.journalDirButton.UseVisualStyleBackColor = true;
             this.journalDirButton.Click += new System.EventHandler(this.journalDirButton_Click);
             // 
@@ -93,7 +93,7 @@ namespace Journal_Manager
             this.fontNameButton.Name = "fontNameButton";
             this.fontNameButton.Size = new System.Drawing.Size(75, 23);
             this.fontNameButton.TabIndex = 11;
-            this.fontNameButton.Text = "button2";
+            this.fontNameButton.Text = "Select";
             this.fontNameButton.UseVisualStyleBackColor = true;
             this.fontNameButton.Click += new System.EventHandler(this.fontNameButton_Click);
             // 
@@ -140,7 +140,7 @@ namespace Journal_Manager
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PreferencesWin";
-            this.Text = "PreferencesWin";
+            this.Text = "Preferences";
             this.ResumeLayout(false);
             this.PerformLayout();
 

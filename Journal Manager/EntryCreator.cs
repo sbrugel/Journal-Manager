@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Text;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -25,13 +24,8 @@ namespace Journal_Manager
             InitializeComponent();
 
             string font = File.ReadLines(DATA_FILE).ElementAtOrDefault(2);
-            if (!font.Equals("X"))
-            {
-                contentBox.Font = new Font(fontName, fontSize);
-            } else
-            {
-                contentBox.Font = new Font("Microsoft Sans Serif", fontSize);
-            }
+            contentBox.Font = new Font(fontName, fontSize);
+
             this.readOnly = readOnly;
 
             if (readOnly)
@@ -80,7 +74,7 @@ namespace Journal_Manager
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An error occurred while saving: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("An error occurred while saving: " + ex, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void LoadFile(String toLoad)
@@ -124,7 +118,6 @@ namespace Journal_Manager
                             textToRtf += @" \par\par ";
                         }
                         else textToRtf += line;
-                        // contentBox.Rtf = contentBox.Rtf + contents;
                     }
                     contentBox.Rtf = @"{\rtf1\ansi " + textToRtf + "}";
                 }
@@ -211,6 +204,14 @@ namespace Journal_Manager
             }
 
         }
+
+        /// <summary>
+        /// Finds substring between indices (if that's how the plural is spelt!)
+        /// </summary>
+        /// <param name="str">The string to search.</param>
+        /// <param name="from">The starting index of the string to search</param>
+        /// <param name="to">The ending index of the string, stop searching here</param>
+        /// <returns>The substring of str from the start to end index specified by the code</returns>
         private string SubstringFromTo(string str, int from, int to)
         {
             try
@@ -226,10 +227,18 @@ namespace Journal_Manager
                 return "None";
             }
         }
+
+        /// <summary>
+        /// Finds the nth index of a substring in a string.
+        /// </summary>
+        /// <param name="str">The string to search.</param>
+        /// <param name="value">The substring to look for.</param>
+        /// <param name="nth">What occurence of the substring to find.</param>
+        /// <returns>An integer corresponding to the position of the nth index of value in str</returns>
         public static int indexOfNth(string str, string value, int nth = 0)
         {
             if (nth < 0)
-                throw new ArgumentException("Can not find a negative index of substring in string. Must start with 0");
+                throw new ArgumentException("Can't find a negative index of substring in string. Must start with 0");
 
             int offset = str.IndexOf(value);
             for (int i = 0; i < nth; i++)
@@ -240,6 +249,7 @@ namespace Journal_Manager
 
             return offset;
         }
+
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFile(Path.Combine(saveDirectory, DateTime.Now.ToString("yyyy-MM-dd_HHmmss") + ".entry"));

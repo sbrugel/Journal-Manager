@@ -18,7 +18,7 @@ namespace Journal_Manager
             DialogResult result = folder.ShowDialog();
             if (result == DialogResult.OK)
             {
-                button2.Enabled = true; //unlock button if a directory is chosen
+                button2.Enabled = true; // unlock button if a directory is chosen
                 string entriesDir = folder.SelectedPath;
                 textBox2.Text = entriesDir;
             }
@@ -34,8 +34,8 @@ namespace Journal_Manager
                 using (StreamWriter sw = File.CreateText(path))
                 {
                     sw.WriteLine(textBox2.Text);
-                    sw.WriteLine("10"); // default font size
-                    sw.WriteLine("X"); // triggers default font (whatever Windows Forms uses)
+                    sw.WriteLine("8");
+                    sw.WriteLine("Microsoft Sans Serif");
                 }
             }
             SetVisibleCore(false);

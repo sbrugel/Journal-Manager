@@ -16,13 +16,9 @@ namespace Journal_Manager
             Application.SetCompatibleTextRenderingDefault(false);
             
             if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\JournalManager\\data.txt"))
-            {
                 Application.Run(new DataLocation());
-            } 
             else
-            {
                 Application.Run(new MainMenu());
-            }
         }
     }
 }

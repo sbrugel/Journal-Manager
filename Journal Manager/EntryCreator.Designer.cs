@@ -37,7 +37,6 @@ namespace Journal_Manager
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.titleLabel = new System.Windows.Forms.Label();
             this.titleBox = new System.Windows.Forms.TextBox();
@@ -72,8 +71,7 @@ namespace Journal_Manager
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
             this.loadToolStripMenuItem,
-            this.preferencesToolStripMenuItem,
-            this.quitToolStripMenuItem});
+            this.preferencesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.ShowItemToolTips = true;
@@ -112,13 +110,6 @@ namespace Journal_Manager
             this.preferencesToolStripMenuItem.Text = "Preferences";
             this.preferencesToolStripMenuItem.ToolTipText = "Change settings";
             this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
-            // 
-            // quitToolStripMenuItem
-            // 
-            this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(42, 20);
-            this.quitToolStripMenuItem.Text = "Quit";
-            this.quitToolStripMenuItem.ToolTipText = "Exit the application - unsaved changes will be lost";
             // 
             // titleLabel
             // 
@@ -216,7 +207,6 @@ namespace Journal_Manager
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Label titleLabel;
         private System.Windows.Forms.TextBox titleBox;

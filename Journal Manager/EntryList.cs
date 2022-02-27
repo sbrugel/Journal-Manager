@@ -17,8 +17,8 @@ namespace Journal_Manager
         public EntryList()
         {
             InitializeComponent();
-            viewButton.Enabled = listView1.SelectedIndices.Count != 0;
-            editButton.Enabled = listView1.SelectedIndices.Count != 0;
+            viewButton.Enabled = false;
+            editButton.Enabled = false;
             RefreshFiles();
         }
         private void RefreshFiles()
@@ -42,6 +42,14 @@ namespace Journal_Manager
                 entryNames.Insert(0, entry);
             }
         }
+
+        /// <summary>
+        /// Finds substring between indices (if that's how the plural is spelt!)
+        /// </summary>
+        /// <param name="str">The string to search.</param>
+        /// <param name="from">The starting index of the string to search</param>
+        /// <param name="to">The ending index of the string, stop searching here</param>
+        /// <returns>The substring of str from the start to end index specified by the code</returns>
         public string SubstringFromTo(string str, int from, int to)
         {
             try
@@ -57,6 +65,14 @@ namespace Journal_Manager
                 return "None";
             }
         }
+
+        /// <summary>
+        /// Finds the nth index of a substring in a string.
+        /// </summary>
+        /// <param name="str">The string to search.</param>
+        /// <param name="value">The substring to look for.</param>
+        /// <param name="nth">What occurence of the substring to find.</param>
+        /// <returns>An integer corresponding to the position of the nth index of value in str</returns>
         public static int indexOfNth(string str, string value, int nth = 0)
         {
             if (nth < 0)

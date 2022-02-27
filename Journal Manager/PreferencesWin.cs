@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Journal_Manager
@@ -55,33 +50,25 @@ namespace Journal_Manager
                 string dir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\JournalManager";
                 string path = dir + "\\data.txt";
                 File.Delete(path);
-                bool changed = false;
                 using (StreamWriter sw = File.CreateText(path))
                 {
-                    if (!journalDirInput.Text.Equals(""))
+                    if (!journalDirInput.Text.Equals("") && !fontNameInput.Text.Equals(""))
                     {
                         sw.WriteLine(journalDirInput.Text);
-                        changed = true;
-                    }
-                    if (!fontNameInput.Text.Equals(""))
-                    {
                         sw.WriteLine(fsize);
                         sw.WriteLine(fname);
-                        changed = true;
-                    }
-                    if (!changed)
-                    {
-                        MessageBox.Show("No changes were made to your settings.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    } else
-                    {
+
                         MessageBox.Show("Settings saved!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         Hide();
                         Close();
+                    } else
+                    {
+                        MessageBox.Show("One of your fields is empty, please fill it out before saving.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
             } catch (Exception ex)
             {
-                MessageBox.Show("An error occured while saving your settings: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("An error occured while saving your settings: " + ex, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
