@@ -30,7 +30,6 @@ namespace Journal_Manager
             contentBox.Font = new Font(fontName, fontSize);
 
             this.readOnly = readOnly;
-
             currentlyLoaded = toLoad;
 
             if (readOnly)
@@ -65,6 +64,9 @@ namespace Journal_Manager
             if (!toLoad.Equals(""))
             {
                 LoadFile(toLoad);
+            } else
+            {
+                savedText = ""; // set saved text to empty; we're making a new file
             }
         }
         private void SaveFile(string saveAs)
@@ -256,12 +258,17 @@ namespace Journal_Manager
             return offset;
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void QuickSave()
         {
             if (currentlyLoaded == "")
-                SaveFile(Path.Combine(saveDirectory, DateTime.Now.ToString("yyyy-MM-dd_HHmmss") + ".entry"));
-            else
-                SaveFile(currentlyLoaded);
+                currentlyLoaded = Path.Combine(saveDirectory, DateTime.Now.ToString("yyyy-MM-dd_HHmmss") + ".entry");
+            savedText = contentBox.Text;
+            SaveFile(currentlyLoaded);
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            QuickSave();
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -323,10 +330,7 @@ namespace Journal_Manager
             if (readOnly) return;
             if (Keyboard.IsKeyDown(Key.S) && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
             {
-                if (currentlyLoaded == "")
-                    SaveFile(Path.Combine(saveDirectory, DateTime.Now.ToString("yyyy-MM-dd_HHmmss") + ".entry"));
-                else
-                    SaveFile(currentlyLoaded);
+                QuickSave();
             }
         }
         private void OnClose(object sender, FormClosingEventArgs e)
@@ -334,7 +338,7 @@ namespace Journal_Manager
             if (readOnly) return;
             if (!savedText.Equals(contentBox.Text))
             {
-                if (MessageBox.Show("You have made changes to your entry since your last save. Do you want to close anyways? Unsaved edits will be lost.", "", MessageBoxButtons.YesNo) == DialogResult.No)
+                if (MessageBox.Show("You have made changes to your entry since your last save. Do you want to close anyways? Unsaved edits will be lost.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
                 {
                     e.Cancel = true; // cancel closing
                 }

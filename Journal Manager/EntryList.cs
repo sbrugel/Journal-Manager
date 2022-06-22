@@ -23,23 +23,29 @@ namespace Journal_Manager
         }
         private void RefreshFiles()
         {
-            listView1.Items.Clear();
-            entryNames.Clear();
-            entries = Directory.GetFiles(saveDirectory);
-            foreach (string entry in entries)
+            try
             {
-                if (!Path.GetExtension(entry).Equals(".entry")) return;
-                string rawText = File.ReadAllText(entry);
-                string title = SubstringFromTo(rawText, rawText.IndexOf("<TITLE>") + 7, rawText.IndexOf("</TITLE>"));
-                string color = SubstringFromTo(rawText, rawText.IndexOf("<COLOR>") + 7, rawText.IndexOf("</COLOR>"));
-                string red = SubstringFromTo(color, 0, indexOfNth(color, "/", 0));
-                string green = SubstringFromTo(color, indexOfNth(color, "/", 0) + 1, indexOfNth(color, "/", 1));
-                string blue = SubstringFromTo(color, indexOfNth(color, "/", 1) + 1, color.Length);
+                listView1.Items.Clear();
+                entryNames.Clear();
+                entries = Directory.GetFiles(saveDirectory);
+                foreach (string entry in entries)
+                {
+                    if (!Path.GetExtension(entry).Equals(".entry")) return;
+                    string rawText = File.ReadAllText(entry);
+                    string title = SubstringFromTo(rawText, rawText.IndexOf("<TITLE>") + 7, rawText.IndexOf("</TITLE>"));
+                    string color = SubstringFromTo(rawText, rawText.IndexOf("<COLOR>") + 7, rawText.IndexOf("</COLOR>"));
+                    string red = SubstringFromTo(color, 0, indexOfNth(color, "/", 0));
+                    string green = SubstringFromTo(color, indexOfNth(color, "/", 0) + 1, indexOfNth(color, "/", 1));
+                    string blue = SubstringFromTo(color, indexOfNth(color, "/", 1) + 1, color.Length);
 
-                listView1.Items.Insert(0, title.Equals("None") ? File.GetCreationTime(entry).ToString() : title); // set display to title, otherwise file creation time
-                listView1.Items[0].BackColor = Color.FromArgb(Int32.Parse(red), Int32.Parse(green), Int32.Parse(blue));
-                listView1.Items[0].ToolTipText = "Created on " + File.GetCreationTime(entry).ToString();
-                entryNames.Insert(0, entry);
+                    listView1.Items.Insert(0, title.Equals("None") ? File.GetCreationTime(entry).ToString() : title); // set display to title, otherwise file creation time
+                    listView1.Items[0].BackColor = Color.FromArgb(Int32.Parse(red), Int32.Parse(green), Int32.Parse(blue));
+                    listView1.Items[0].ToolTipText = Path.GetFullPath(entry);
+                    entryNames.Insert(0, entry);
+                }
+            } catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while loading entries: " + ex, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

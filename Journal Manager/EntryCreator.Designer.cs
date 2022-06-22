@@ -129,6 +129,7 @@ namespace Journal_Manager
             this.titleBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.titleBox.Location = new System.Drawing.Point(128, 31);
+            this.titleBox.MaxLength = 150;
             this.titleBox.Name = "titleBox";
             this.titleBox.Size = new System.Drawing.Size(656, 20);
             this.titleBox.TabIndex = 4;
