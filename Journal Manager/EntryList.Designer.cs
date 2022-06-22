@@ -49,6 +49,7 @@ namespace Journal_Manager
             // 
             // viewButton
             // 
+            this.viewButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.viewButton.Location = new System.Drawing.Point(251, 40);
             this.viewButton.Name = "viewButton";
             this.viewButton.Size = new System.Drawing.Size(87, 23);
@@ -59,6 +60,7 @@ namespace Journal_Manager
             // 
             // editButton
             // 
+            this.editButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.editButton.Location = new System.Drawing.Point(251, 69);
             this.editButton.Name = "editButton";
             this.editButton.Size = new System.Drawing.Size(87, 23);
@@ -69,6 +71,9 @@ namespace Journal_Manager
             // 
             // listView1
             // 
+            this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(17, 41);
             this.listView1.MultiSelect = false;
@@ -83,6 +88,7 @@ namespace Journal_Manager
             // 
             // refreshButton
             // 
+            this.refreshButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.refreshButton.Location = new System.Drawing.Point(251, 98);
             this.refreshButton.Name = "refreshButton";
             this.refreshButton.Size = new System.Drawing.Size(87, 23);

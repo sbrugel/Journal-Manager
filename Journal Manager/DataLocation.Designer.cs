@@ -53,7 +53,7 @@ namespace Journal_Manager
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(393, 48);
+            this.textBox1.Size = new System.Drawing.Size(414, 54);
             this.textBox1.TabIndex = 1;
             this.textBox1.Text = "Select the directory where you will save all of your journal entries.\r\nThis is th" +
     "e directory that the program will read from when you\r\nview past journal entries." +
@@ -61,14 +61,14 @@ namespace Journal_Manager
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(16, 84);
+            this.textBox2.Location = new System.Drawing.Point(16, 90);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(312, 20);
+            this.textBox2.Size = new System.Drawing.Size(333, 20);
             this.textBox2.TabIndex = 2;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(334, 82);
+            this.button1.Location = new System.Drawing.Point(355, 87);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 3;
@@ -78,7 +78,7 @@ namespace Journal_Manager
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(16, 110);
+            this.button2.Location = new System.Drawing.Point(16, 116);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 4;
@@ -90,13 +90,15 @@ namespace Journal_Manager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(442, 154);
+            this.ClientSize = new System.Drawing.Size(442, 146);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "DataLocation";
             this.Text = "Setup";
             this.ResumeLayout(false);

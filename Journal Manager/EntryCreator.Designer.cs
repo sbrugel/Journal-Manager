@@ -58,6 +58,9 @@ namespace Journal_Manager
             // 
             // contentBox
             // 
+            this.contentBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.contentBox.Location = new System.Drawing.Point(12, 74);
             this.contentBox.Name = "contentBox";
             this.contentBox.Size = new System.Drawing.Size(772, 220);
@@ -122,6 +125,8 @@ namespace Journal_Manager
             // 
             // titleBox
             // 
+            this.titleBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.titleBox.Location = new System.Drawing.Point(128, 31);
             this.titleBox.Name = "titleBox";
             this.titleBox.Size = new System.Drawing.Size(656, 20);
@@ -129,8 +134,9 @@ namespace Journal_Manager
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 301);
+            this.label1.Location = new System.Drawing.Point(13, 303);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(52, 13);
             this.label1.TabIndex = 5;
@@ -138,6 +144,7 @@ namespace Journal_Manager
             // 
             // colorChoice
             // 
+            this.colorChoice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.colorChoice.FormattingEnabled = true;
             this.colorChoice.Items.AddRange(new object[] {
             "None",
@@ -147,7 +154,7 @@ namespace Journal_Manager
             "Green",
             "Blue",
             "Purple"});
-            this.colorChoice.Location = new System.Drawing.Point(71, 298);
+            this.colorChoice.Location = new System.Drawing.Point(71, 300);
             this.colorChoice.Name = "colorChoice";
             this.colorChoice.Size = new System.Drawing.Size(121, 21);
             this.colorChoice.TabIndex = 6;
@@ -155,7 +162,8 @@ namespace Journal_Manager
             // 
             // previousEntry
             // 
-            this.previousEntry.Location = new System.Drawing.Point(12, 323);
+            this.previousEntry.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.previousEntry.Location = new System.Drawing.Point(12, 327);
             this.previousEntry.Name = "previousEntry";
             this.previousEntry.Size = new System.Drawing.Size(107, 23);
             this.previousEntry.TabIndex = 7;
@@ -165,7 +173,8 @@ namespace Journal_Manager
             // 
             // nextEntry
             // 
-            this.nextEntry.Location = new System.Drawing.Point(677, 323);
+            this.nextEntry.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.nextEntry.Location = new System.Drawing.Point(677, 327);
             this.nextEntry.Name = "nextEntry";
             this.nextEntry.Size = new System.Drawing.Size(107, 23);
             this.nextEntry.TabIndex = 8;

@@ -139,6 +139,7 @@ namespace Journal_Manager
             this.Controls.Add(this.journalDirInput);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "PreferencesWin";
             this.Text = "Preferences";
             this.ResumeLayout(false);
