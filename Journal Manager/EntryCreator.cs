@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace Journal_Manager
 {
@@ -16,6 +17,8 @@ namespace Journal_Manager
 
         string color = "255/255/255";
         string currentlyLoaded;
+        string savedText;
+
         string[] entries;
         List<string> entriesList;
         bool readOnly = false;
@@ -28,6 +31,8 @@ namespace Journal_Manager
 
             this.readOnly = readOnly;
 
+            currentlyLoaded = toLoad;
+
             if (readOnly)
             {
                 menuStrip1.Visible = false;
@@ -39,7 +44,6 @@ namespace Journal_Manager
                 contentLabel.Text = "Content";
 
                 Text = "View Entry";
-                currentlyLoaded = toLoad;
                 entries = otherFiles;
                 entriesList = entries.OfType<string>().ToList();
 
@@ -86,7 +90,9 @@ namespace Journal_Manager
                 string title = SubstringFromTo(rawText, rawText.IndexOf("<TITLE>") + 7, rawText.IndexOf("</TITLE>"));
                 color = SubstringFromTo(rawText, rawText.IndexOf("<COLOR>") + 7, rawText.IndexOf("</COLOR>"));
 
+                savedText = contents;
                 contentBox.Text = contents;
+                System.Diagnostics.Debug.WriteLine(savedText.Equals(contentBox.Text));
                 titleBox.Text = title.Equals("None") ? "" : title;
                 GetColor();
 
@@ -105,7 +111,7 @@ namespace Journal_Manager
                     contents = contents.Replace("[h3]", "\\fs" + (int)(fontSize * 2.5) + " ");
                     contents = contents.Replace("[/h3]", "\\fs" + (fontSize * 2));
                     string[] lines = contents.Split(
-                        new string[] { "\r\n", "\r", "\n" },
+                        new string[] { "\r\n", "\r", "\n", "\n\r" },
                         StringSplitOptions.None
                     );
 
@@ -115,9 +121,9 @@ namespace Journal_Manager
                     {
                         if (line.Equals(""))
                         {
-                            textToRtf += @" \par\par ";
+                            textToRtf += @" \par ";
                         }
-                        else textToRtf += line;
+                        else textToRtf += line + @" \par ";
                     }
                     contentBox.Rtf = @"{\rtf1\ansi " + textToRtf + "}";
                 }
@@ -252,7 +258,10 @@ namespace Journal_Manager
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFile(Path.Combine(saveDirectory, DateTime.Now.ToString("yyyy-MM-dd_HHmmss") + ".entry"));
+            if (currentlyLoaded == "")
+                SaveFile(Path.Combine(saveDirectory, DateTime.Now.ToString("yyyy-MM-dd_HHmmss") + ".entry"));
+            else
+                SaveFile(currentlyLoaded);
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -307,6 +316,29 @@ namespace Journal_Manager
         private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new PreferencesWin().Show();
+        }
+
+        private void OnKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (readOnly) return;
+            if (Keyboard.IsKeyDown(Key.S) && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
+            {
+                if (currentlyLoaded == "")
+                    SaveFile(Path.Combine(saveDirectory, DateTime.Now.ToString("yyyy-MM-dd_HHmmss") + ".entry"));
+                else
+                    SaveFile(currentlyLoaded);
+            }
+        }
+        private void OnClose(object sender, FormClosingEventArgs e)
+        {
+            if (readOnly) return;
+            if (!savedText.Equals(contentBox.Text))
+            {
+                if (MessageBox.Show("You have made changes to your entry since your last save. Do you want to close anyways? Unsaved edits will be lost.", "", MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+                    e.Cancel = true; // cancel closing
+                }
+            }
         }
     }
 }

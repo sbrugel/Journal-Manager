@@ -66,6 +66,7 @@ namespace Journal_Manager
             this.contentBox.Size = new System.Drawing.Size(772, 220);
             this.contentBox.TabIndex = 1;
             this.contentBox.Text = "";
+            this.contentBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
             // 
             // menuStrip1
             // 
@@ -200,6 +201,7 @@ namespace Journal_Manager
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "EntryCreator";
             this.Text = "Entry Creator";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnClose);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
