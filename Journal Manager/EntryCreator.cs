@@ -42,7 +42,6 @@ namespace Journal_Manager
                 titleLabel.Text = "Journal Title";
                 contentLabel.Text = "Content";
 
-                Text = "View Entry";
                 entries = otherFiles;
                 entriesList = entries.OfType<string>().ToList();
 
@@ -64,9 +63,11 @@ namespace Journal_Manager
             if (!toLoad.Equals(""))
             {
                 LoadFile(toLoad);
+                Text = readOnly ? "View Entry - " + toLoad : "Edit Entry - " + toLoad;
             } else
             {
                 savedText = ""; // set saved text to empty; we're making a new file
+                Text = "Create Entry";
             }
         }
         private void SaveFile(string saveAs)
@@ -338,9 +339,14 @@ namespace Journal_Manager
             if (readOnly) return;
             if (!savedText.Equals(contentBox.Text))
             {
-                if (MessageBox.Show("You have made changes to your entry since your last save. Do you want to close anyways? Unsaved edits will be lost.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                DialogResult dr = MessageBox.Show("You have made changes to your entry since your last save. Unsaved edits will be lost.\n\nSave changes?", "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                if (dr == DialogResult.Cancel)
                 {
                     e.Cancel = true; // cancel closing
+                }
+                else if (dr == DialogResult.Yes)
+                {
+                    QuickSave();
                 }
             }
         }
