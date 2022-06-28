@@ -44,6 +44,7 @@ namespace Journal_Manager
             this.colorChoice = new System.Windows.Forms.ComboBox();
             this.previousEntry = new System.Windows.Forms.Button();
             this.nextEntry = new System.Windows.Forms.Button();
+            this.colorDialog = new System.Windows.Forms.ColorDialog();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -155,7 +156,8 @@ namespace Journal_Manager
             "Yellow",
             "Green",
             "Blue",
-            "Purple"});
+            "Purple",
+            "<CUSTOM>"});
             this.colorChoice.Location = new System.Drawing.Point(71, 300);
             this.colorChoice.Name = "colorChoice";
             this.colorChoice.Size = new System.Drawing.Size(121, 21);
@@ -226,6 +228,7 @@ namespace Journal_Manager
         private System.Windows.Forms.ComboBox colorChoice;
         private System.Windows.Forms.Button previousEntry;
         private System.Windows.Forms.Button nextEntry;
+        private System.Windows.Forms.ColorDialog colorDialog;
     }
 }
 

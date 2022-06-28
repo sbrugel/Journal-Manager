@@ -95,7 +95,6 @@ namespace Journal_Manager
 
                 savedText = contents;
                 contentBox.Text = contents;
-                System.Diagnostics.Debug.WriteLine(savedText.Equals(contentBox.Text));
                 titleBox.Text = title.Equals("None") ? "" : title;
                 GetColor();
 
@@ -172,6 +171,14 @@ namespace Journal_Manager
             {
                 color = "180/130/255";
                 contentBox.BackColor = Color.FromArgb(180, 130, 255);
+            }
+            else if (col.Equals("<CUSTOM>"))
+            {
+                if (colorDialog.ShowDialog() == DialogResult.OK)
+                {
+                    contentBox.BackColor = colorDialog.Color;
+                    color = colorDialog.Color.R + "/" + colorDialog.Color.G + "/" + colorDialog.Color.B;
+                }
             }
         }
         private void GetColor()
