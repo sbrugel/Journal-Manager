@@ -19,6 +19,7 @@ namespace Journal_Manager
             InitializeComponent();
             viewButton.Enabled = false;
             editButton.Enabled = false;
+            deleteButton.Enabled = false;
             RefreshFiles();
         }
         private void RefreshFiles()
