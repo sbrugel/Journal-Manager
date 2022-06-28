@@ -126,6 +126,22 @@ namespace Journal_Manager
         {
             viewButton.Enabled = listView1.SelectedIndices.Count != 0;
             editButton.Enabled = listView1.SelectedIndices.Count != 0;
+            deleteButton.Enabled = listView1.SelectedIndices.Count != 0;
+        }
+
+        private void searchButton_Click(object sender, EventArgs e)
+        {
+            new Search().Show();
+        }
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            DialogResult dr = MessageBox.Show("Are you sure you want to delete " + entryNames[listView1.SelectedIndices[0]] + "? This cannot be undone.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dr == DialogResult.Yes)
+            {
+                File.Delete(entryNames[listView1.SelectedIndices[0]]);
+                RefreshFiles();
+            }
         }
     }
 }

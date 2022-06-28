@@ -19,6 +19,7 @@ namespace Journal_Manager
                 Application.Run(new DataLocation());
             else
                 Application.Run(new MainMenu());
+
         }
     }
 }
