@@ -18,8 +18,7 @@ namespace Journal_Manager
             if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\JournalManager\\data.txt"))
                 Application.Run(new DataLocation());
             else
-                Application.Run(new TagCreator());
-                // Application.Run(new MainMenu());
+                Application.Run(new MainMenu());
 
         }
     }

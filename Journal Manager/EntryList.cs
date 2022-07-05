@@ -144,5 +144,10 @@ namespace Journal_Manager
                 RefreshFiles();
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            new TagList().Show();
+        }
     }
 }

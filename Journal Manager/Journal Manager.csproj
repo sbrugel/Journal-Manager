@@ -95,6 +95,12 @@
     <Compile Include="TagCreator.Designer.cs">
       <DependentUpon>TagCreator.cs</DependentUpon>
     </Compile>
+    <Compile Include="TagList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TagList.Designer.cs">
+      <DependentUpon>TagList.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="DataLocation.resx">
       <DependentUpon>DataLocation.cs</DependentUpon>
     </EmbeddedResource>
@@ -124,6 +130,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TagCreator.resx">
       <DependentUpon>TagCreator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TagList.resx">
+      <DependentUpon>TagList.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
