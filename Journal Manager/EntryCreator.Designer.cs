@@ -45,6 +45,10 @@ namespace Journal_Manager
             this.previousEntry = new System.Windows.Forms.Button();
             this.nextEntry = new System.Windows.Forms.Button();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
+            this.addTag = new System.Windows.Forms.Button();
+            this.tagsList = new System.Windows.Forms.ComboBox();
+            this.currentTags = new System.Windows.Forms.ListView();
+            this.label2 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -186,11 +190,53 @@ namespace Journal_Manager
             this.nextEntry.UseVisualStyleBackColor = true;
             this.nextEntry.Click += new System.EventHandler(this.nextEntry_Click);
             // 
+            // addTag
+            // 
+            this.addTag.Location = new System.Drawing.Point(376, 298);
+            this.addTag.Name = "addTag";
+            this.addTag.Size = new System.Drawing.Size(75, 23);
+            this.addTag.TabIndex = 9;
+            this.addTag.Text = "Add Tag";
+            this.addTag.UseVisualStyleBackColor = true;
+            this.addTag.Click += new System.EventHandler(this.addTag_Click);
+            // 
+            // tagsList
+            // 
+            this.tagsList.FormattingEnabled = true;
+            this.tagsList.Location = new System.Drawing.Point(249, 300);
+            this.tagsList.Name = "tagsList";
+            this.tagsList.Size = new System.Drawing.Size(121, 21);
+            this.tagsList.TabIndex = 10;
+            this.tagsList.SelectedIndexChanged += new System.EventHandler(this.tagsList_SelectedIndexChanged);
+            // 
+            // currentTags
+            // 
+            this.currentTags.HideSelection = false;
+            this.currentTags.Location = new System.Drawing.Point(457, 298);
+            this.currentTags.Name = "currentTags";
+            this.currentTags.Size = new System.Drawing.Size(327, 23);
+            this.currentTags.TabIndex = 11;
+            this.currentTags.UseCompatibleStateImageBehavior = false;
+            this.currentTags.DoubleClick += new System.EventHandler(this.tagDoubleClick);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(457, 327);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(151, 13);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "Double click a tag to remove it";
+            // 
             // EntryCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 358);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.currentTags);
+            this.Controls.Add(this.tagsList);
+            this.Controls.Add(this.addTag);
             this.Controls.Add(this.nextEntry);
             this.Controls.Add(this.previousEntry);
             this.Controls.Add(this.colorChoice);
@@ -229,6 +275,10 @@ namespace Journal_Manager
         private System.Windows.Forms.Button previousEntry;
         private System.Windows.Forms.Button nextEntry;
         private System.Windows.Forms.ColorDialog colorDialog;
+        private System.Windows.Forms.Button addTag;
+        private System.Windows.Forms.ComboBox tagsList;
+        private System.Windows.Forms.ListView currentTags;
+        private System.Windows.Forms.Label label2;
     }
 }
 

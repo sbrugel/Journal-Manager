@@ -22,9 +22,25 @@ namespace Journal_Manager
         string[] entries;
         List<string> entriesList;
         bool readOnly = false;
+
+        string[] tags;
+        List<string> tagFiles = new List<string>();
+
         public EntryCreator(bool readOnly, string toLoad = "", string[] otherFiles = null)
         {
             InitializeComponent();
+
+            string tagsDirectory = saveDirectory + "\\tags";
+            tags = Directory.GetFiles(tagsDirectory);
+            foreach (string tag in tags)
+            {
+                if (!Path.GetExtension(tag).Equals(".tag")) return;
+                string rawText = File.ReadAllText(tag);
+                string name = SubstringFromTo(rawText, 0, rawText.IndexOf("<COLOR>"));
+
+                tagsList.Items.Add(name);
+                tagFiles.Add(Path.GetFullPath(tag));
+            }
 
             string font = File.ReadLines(DATA_FILE).ElementAtOrDefault(2);
             contentBox.Font = new Font(fontName, fontSize);
@@ -343,7 +359,7 @@ namespace Journal_Manager
         }
         private void OnClose(object sender, FormClosingEventArgs e)
         {
-            if (readOnly) return;
+            if (readOnly || savedText == null) return;
             if (!savedText.Equals(contentBox.Text))
             {
                 DialogResult dr = MessageBox.Show("You have made changes to your entry since your last save. Unsaved edits will be lost.\n\nSave changes?", "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
@@ -356,6 +372,44 @@ namespace Journal_Manager
                     QuickSave();
                 }
             }
+        }
+
+        private void ToggleButton()
+        {
+            addTag.Enabled = true;
+            foreach (ListViewItem tag in currentTags.Items)
+            {
+                if (tag.Text.Equals(tagsList.SelectedItem.ToString()))
+                {
+                    addTag.Enabled = false;
+                    break;
+                }
+            }
+        }
+
+        private void addTag_Click(object sender, EventArgs e)
+        {
+            string rawText = File.ReadAllText(tagFiles[tagsList.SelectedIndex]);
+            string name = SubstringFromTo(rawText, 0, rawText.IndexOf("<COLOR>"));
+            string color = SubstringFromTo(rawText, rawText.IndexOf("<COLOR>") + 7, rawText.IndexOf("</COLOR>"));
+            string red = SubstringFromTo(color, 0, indexOfNth(color, "/", 0));
+            string green = SubstringFromTo(color, indexOfNth(color, "/", 0) + 1, indexOfNth(color, "/", 1));
+            string blue = SubstringFromTo(color, indexOfNth(color, "/", 1) + 1, color.Length);
+
+            currentTags.Items.Insert(0, name);
+            currentTags.Items[0].BackColor = Color.FromArgb(Int32.Parse(red), Int32.Parse(green), Int32.Parse(blue));
+            ToggleButton();
+        }
+
+        private void tagsList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ToggleButton();
+        }
+
+        private void tagDoubleClick(object sender, EventArgs e)
+        {
+            currentTags.Items.Remove(currentTags.SelectedItems[0]);
+            ToggleButton();
         }
     }
 }
