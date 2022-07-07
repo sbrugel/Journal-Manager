@@ -2,6 +2,7 @@
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Journal_Manager
@@ -23,6 +24,7 @@ namespace Journal_Manager
             entries = Directory.GetFiles(saveDirectory);
             int filesWithHits = 0;
             resultsTable.Rows.Clear();
+            searchButton.Enabled = false;
             if (radioKeyword.Checked)
             {
                 foreach (string entry in entries)
@@ -37,49 +39,61 @@ namespace Journal_Manager
                         filesWithHits++;
                         resultsTable.Rows.Add(new object[] { title, entry });
                     }
+                    label2.Text = "Found query in " + filesWithHits + " entr" + (filesWithHits == 1 ? "y" : "ies");
                 }
             } else if (radioTag.Checked)
             {
-                foreach (string entry in entries)
+                Thread t = new Thread(delegate()
                 {
-                    if (!Path.GetExtension(entry).Equals(".entry")) return;
-                    string rawText = File.ReadAllText(entry);
-                    string title = SubstringFromTo(rawText, rawText.IndexOf("<TITLE>") + 7, rawText.IndexOf("</TITLE>"));
-                    string tags = SubstringFromTo(rawText, rawText.IndexOf("<TAGS>") + 6, rawText.IndexOf("</TAGS>"));
-                    string[] tagsList = tags.Split(',');
-                    for (int i = 0; i < tagsList.Length; i++)
+                    foreach (string entry in entries)
                     {
-                        tagsList[i] = tagsList[i].ToLower();
-                    }
+                        if (!Path.GetExtension(entry).Equals(".entry")) return;
+                        string rawText = File.ReadAllText(entry);
+                        string title = SubstringFromTo(rawText, rawText.IndexOf("<TITLE>") + 7, rawText.IndexOf("</TITLE>"));
+                        string tags = SubstringFromTo(rawText, rawText.IndexOf("<TAGS>") + 6, rawText.IndexOf("</TAGS>"));
+                        string[] tagsList = tags.Split(',');
+                        for (int i = 0; i < tagsList.Length; i++)
+                        {
+                            tagsList[i] = tagsList[i].ToLower();
+                        }
 
-                    if (tagsList.Contains(queryTextBox.Text.ToLower()))
-                    {
-                        filesWithHits++;
-                        resultsTable.Rows.Add(new object[] { title, entry });
+                        if (tagsList.Contains(queryTextBox.Text.ToLower()))
+                        {
+                            filesWithHits++;
+                            resultsTable.Invoke(new MethodInvoker(delegate { resultsTable.Rows.Add(new object[] { title, entry });  }));
+                        }
                     }
-                }
+                    label2.Invoke(new MethodInvoker(delegate { label2.Text = "Found query in " + filesWithHits + " entr" + (filesWithHits == 1 ? "y" : "ies"); }));
+                    searchButton.Invoke(new MethodInvoker(delegate { searchButton.Enabled = true; }));
+                });
+                t.Start();
             } else if (radioNoTag.Checked)
             {
-                foreach (string entry in entries)
+                Thread t = new Thread(delegate ()
                 {
-                    if (!Path.GetExtension(entry).Equals(".entry")) return;
-                    string rawText = File.ReadAllText(entry);
-                    string title = SubstringFromTo(rawText, rawText.IndexOf("<TITLE>") + 7, rawText.IndexOf("</TITLE>"));
-                    string tags = SubstringFromTo(rawText, rawText.IndexOf("<TAGS>") + 6, rawText.IndexOf("</TAGS>"));
-                    string[] tagsList = tags.Split(',');
-                    for (int i = 0; i < tagsList.Length; i++)
+                    foreach (string entry in entries)
                     {
-                        tagsList[i] = tagsList[i].ToLower();
-                    }
+                        if (!Path.GetExtension(entry).Equals(".entry")) return;
+                        string rawText = File.ReadAllText(entry);
+                        string title = SubstringFromTo(rawText, rawText.IndexOf("<TITLE>") + 7, rawText.IndexOf("</TITLE>"));
+                        string tags = SubstringFromTo(rawText, rawText.IndexOf("<TAGS>") + 6, rawText.IndexOf("</TAGS>"));
+                        string[] tagsList = tags.Split(',');
+                        for (int i = 0; i < tagsList.Length; i++)
+                        {
+                            tagsList[i] = tagsList[i].ToLower();
+                        }
 
-                    if (!tagsList.Contains(queryTextBox.Text.ToLower()))
-                    {
-                        filesWithHits++;
-                        resultsTable.Rows.Add(new object[] { title, entry });
+                        if (!tagsList.Contains(queryTextBox.Text.ToLower()))
+                        {
+                            filesWithHits++;
+                            resultsTable.Invoke(new MethodInvoker(delegate { resultsTable.Rows.Add(new object[] { title, entry }); }));
+                        }
                     }
-                }
+                    label2.Invoke(new MethodInvoker(delegate { label2.Text = "Found query in " + filesWithHits + " entr" + (filesWithHits == 1 ? "y" : "ies"); }));
+                    searchButton.Invoke(new MethodInvoker(delegate { searchButton.Enabled = true; }));
+                });
+                t.Start();
             }
-            label2.Text = "Found query in " + filesWithHits + " file" + (filesWithHits == 1 ? "" : "s");
         }
 
         /// <summary>

@@ -104,6 +104,7 @@ namespace Journal_Manager
             this.Controls.Add(this.nameBox);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "TagCreator";
             this.Text = "Tag Creator";
             this.ResumeLayout(false);
