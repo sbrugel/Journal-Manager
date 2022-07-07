@@ -124,9 +124,10 @@ namespace Journal_Manager
             // 
             // button1
             // 
+            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.button1.Location = new System.Drawing.Point(264, 387);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(92, 23);
+            this.button1.Size = new System.Drawing.Size(96, 23);
             this.button1.TabIndex = 8;
             this.button1.Text = "View Tags";
             this.button1.UseVisualStyleBackColor = true;

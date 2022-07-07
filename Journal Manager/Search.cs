@@ -14,7 +14,8 @@ namespace Journal_Manager
         public Search()
         {
             InitializeComponent();
-
+            radioKeyword.Checked = true;
+            label2.Text = "";
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -22,17 +23,60 @@ namespace Journal_Manager
             entries = Directory.GetFiles(saveDirectory);
             int filesWithHits = 0;
             resultsTable.Rows.Clear();
-            foreach (string entry in entries)
+            if (radioKeyword.Checked)
             {
-                if (!Path.GetExtension(entry).Equals(".entry")) return;
-                string rawText = File.ReadAllText(entry);
-                string contents = SubstringFromTo(rawText, 0, rawText.IndexOf("<TITLE>"));
-                string title = SubstringFromTo(rawText, rawText.IndexOf("<TITLE>") + 7, rawText.IndexOf("</TITLE>"));
-
-                if (contents.IndexOf(queryTextBox.Text, StringComparison.CurrentCultureIgnoreCase) != -1)
+                foreach (string entry in entries)
                 {
-                    filesWithHits++;
-                    resultsTable.Rows.Add(new object[] { title, entry });
+                    if (!Path.GetExtension(entry).Equals(".entry")) return;
+                    string rawText = File.ReadAllText(entry);
+                    string contents = SubstringFromTo(rawText, 0, rawText.IndexOf("<TITLE>"));
+                    string title = SubstringFromTo(rawText, rawText.IndexOf("<TITLE>") + 7, rawText.IndexOf("</TITLE>"));
+
+                    if (contents.IndexOf(queryTextBox.Text, StringComparison.CurrentCultureIgnoreCase) != -1)
+                    {
+                        filesWithHits++;
+                        resultsTable.Rows.Add(new object[] { title, entry });
+                    }
+                }
+            } else if (radioTag.Checked)
+            {
+                foreach (string entry in entries)
+                {
+                    if (!Path.GetExtension(entry).Equals(".entry")) return;
+                    string rawText = File.ReadAllText(entry);
+                    string title = SubstringFromTo(rawText, rawText.IndexOf("<TITLE>") + 7, rawText.IndexOf("</TITLE>"));
+                    string tags = SubstringFromTo(rawText, rawText.IndexOf("<TAGS>") + 6, rawText.IndexOf("</TAGS>"));
+                    string[] tagsList = tags.Split(',');
+                    for (int i = 0; i < tagsList.Length; i++)
+                    {
+                        tagsList[i] = tagsList[i].ToLower();
+                    }
+
+                    if (tagsList.Contains(queryTextBox.Text.ToLower()))
+                    {
+                        filesWithHits++;
+                        resultsTable.Rows.Add(new object[] { title, entry });
+                    }
+                }
+            } else if (radioNoTag.Checked)
+            {
+                foreach (string entry in entries)
+                {
+                    if (!Path.GetExtension(entry).Equals(".entry")) return;
+                    string rawText = File.ReadAllText(entry);
+                    string title = SubstringFromTo(rawText, rawText.IndexOf("<TITLE>") + 7, rawText.IndexOf("</TITLE>"));
+                    string tags = SubstringFromTo(rawText, rawText.IndexOf("<TAGS>") + 6, rawText.IndexOf("</TAGS>"));
+                    string[] tagsList = tags.Split(',');
+                    for (int i = 0; i < tagsList.Length; i++)
+                    {
+                        tagsList[i] = tagsList[i].ToLower();
+                    }
+
+                    if (!tagsList.Contains(queryTextBox.Text.ToLower()))
+                    {
+                        filesWithHits++;
+                        resultsTable.Rows.Add(new object[] { title, entry });
+                    }
                 }
             }
             label2.Text = "Found query in " + filesWithHits + " file" + (filesWithHits == 1 ? "" : "s");

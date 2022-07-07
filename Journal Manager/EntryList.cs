@@ -96,6 +96,7 @@ namespace Journal_Manager
         }
         private void viewButton_Click(object sender, EventArgs e) // this goes for both the view button click and a double click on the list
         {
+            if (listView1.SelectedIndices.Count == 0) return; // double click when nothing is selected
             try
             {
                 new EntryCreator(true, entryNames[listView1.SelectedIndices[0]], entries).Show();
