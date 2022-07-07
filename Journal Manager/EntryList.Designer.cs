@@ -37,6 +37,7 @@ namespace Journal_Manager
             this.refreshButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
             this.searchButton = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -113,19 +114,31 @@ namespace Journal_Manager
             // searchButton
             // 
             this.searchButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.searchButton.Location = new System.Drawing.Point(263, 401);
+            this.searchButton.Location = new System.Drawing.Point(263, 416);
             this.searchButton.Name = "searchButton";
-            this.searchButton.Size = new System.Drawing.Size(97, 37);
+            this.searchButton.Size = new System.Drawing.Size(97, 22);
             this.searchButton.TabIndex = 7;
-            this.searchButton.Text = "Search for Keyword";
+            this.searchButton.Text = "Search";
             this.searchButton.UseVisualStyleBackColor = true;
             this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
+            // 
+            // button1
+            // 
+            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.button1.Location = new System.Drawing.Point(264, 387);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(96, 23);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "View Tags";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // EntryList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(368, 450);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.searchButton);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.refreshButton);
@@ -150,5 +163,6 @@ namespace Journal_Manager
         private System.Windows.Forms.Button refreshButton;
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Button searchButton;
+        private System.Windows.Forms.Button button1;
     }
 }

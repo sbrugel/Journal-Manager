@@ -22,9 +22,25 @@ namespace Journal_Manager
         string[] entries;
         List<string> entriesList;
         bool readOnly = false;
+
+        string[] tags;
+        List<string> tagFiles = new List<string>();
+
         public EntryCreator(bool readOnly, string toLoad = "", string[] otherFiles = null)
         {
             InitializeComponent();
+
+            string tagsDirectory = saveDirectory + "\\tags";
+            tags = Directory.GetFiles(tagsDirectory);
+            foreach (string tag in tags)
+            {
+                if (!Path.GetExtension(tag).Equals(".tag")) return;
+                string rawText = File.ReadAllText(tag);
+                string name = SubstringFromTo(rawText, 0, rawText.IndexOf("<COLOR>"));
+
+                tagsList.Items.Add(name);
+                tagFiles.Add(Path.GetFullPath(tag));
+            }
 
             string font = File.ReadLines(DATA_FILE).ElementAtOrDefault(2);
             contentBox.Font = new Font(fontName, fontSize);
@@ -38,6 +54,9 @@ namespace Journal_Manager
                 contentBox.ReadOnly = true;
                 titleBox.ReadOnly = true;
                 colorChoice.Enabled = false;
+                tagsList.Visible = false;
+                addTag.Visible = false;
+                label2.Visible = false;
 
                 titleLabel.Text = "Journal Title";
                 contentLabel.Text = "Content";
@@ -77,6 +96,12 @@ namespace Journal_Manager
                 File.WriteAllText(saveAs, contentBox.Text);
                 File.AppendAllText(saveAs, "<TITLE>" + titleBox.Text + "</TITLE>");
                 File.AppendAllText(saveAs, "<COLOR>" + color + "</COLOR>");
+                List<string> tagNames = new List<string>();
+                foreach (ListViewItem tag in currentTags.Items)
+                {
+                    tagNames.Add(tag.Text);
+                }
+                File.AppendAllText(saveAs, "<TAGS>" + String.Join(",", tagNames) + "</TAGS>");
                 MessageBox.Show("Saved as " + saveAs, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -92,11 +117,42 @@ namespace Journal_Manager
                 string contents = SubstringFromTo(rawText, 0, rawText.IndexOf("<TITLE>"));
                 string title = SubstringFromTo(rawText, rawText.IndexOf("<TITLE>") + 7, rawText.IndexOf("</TITLE>"));
                 color = SubstringFromTo(rawText, rawText.IndexOf("<COLOR>") + 7, rawText.IndexOf("</COLOR>"));
+                string tags = SubstringFromTo(rawText, rawText.IndexOf("<TAGS>") + 6, rawText.IndexOf("</TAGS>")); // if no tags, will show None
 
                 savedText = contents;
                 contentBox.Text = contents;
                 titleBox.Text = title.Equals("None") ? "" : title;
                 GetColor();
+
+                if (!tags.Equals("None"))
+                {
+                    int addIteration = 0;
+                    string[] tagsList = tags.Split(',');
+                    foreach (string tag in tagsList)
+                    {
+                        // search through saved tags and find the right one (for color)
+                        string tagsDirectory = File.ReadLines(DATA_FILE).ElementAtOrDefault(0) + "\\tags"; // first line
+
+                        string[] savedTags = Directory.GetFiles(tagsDirectory);
+
+                        foreach (string savedTag in savedTags)
+                        {
+                            string tagRaw = File.ReadAllText(savedTag);
+                            string tagName = SubstringFromTo(tagRaw, 0, tagRaw.IndexOf("<COLOR>"));
+                            if (!Path.GetExtension(savedTag).Equals(".tag") || !tagName.Equals(tag)) continue;
+                            string tagColor = SubstringFromTo(tagRaw, tagRaw.IndexOf("<COLOR>") + 7, tagRaw.IndexOf("</COLOR>"));
+                            string red = SubstringFromTo(tagColor, 0, indexOfNth(tagColor, "/", 0));
+                            string green = SubstringFromTo(tagColor, indexOfNth(tagColor, "/", 0) + 1, indexOfNth(tagColor, "/", 1));
+                            string blue = SubstringFromTo(tagColor, indexOfNth(tagColor, "/", 1) + 1, tagColor.Length);
+
+                            currentTags.Items.Add(tagName);
+                            currentTags.Items[addIteration].BackColor = Color.FromArgb(Int32.Parse(red), Int32.Parse(green), Int32.Parse(blue));
+                            addIteration++;
+
+                            break;
+                        }
+                    }
+                }
 
                 if (readOnly) // format text only if not editing
                 {
@@ -343,7 +399,7 @@ namespace Journal_Manager
         }
         private void OnClose(object sender, FormClosingEventArgs e)
         {
-            if (readOnly) return;
+            if (readOnly || savedText == null) return;
             if (!savedText.Equals(contentBox.Text))
             {
                 DialogResult dr = MessageBox.Show("You have made changes to your entry since your last save. Unsaved edits will be lost.\n\nSave changes?", "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
@@ -356,6 +412,46 @@ namespace Journal_Manager
                     QuickSave();
                 }
             }
+        }
+
+        private void ToggleButton()
+        {
+            addTag.Enabled = true;
+            if (tagsList.SelectedItem == null) return;
+            foreach (ListViewItem tag in currentTags.Items)
+            {
+                if (tag.Text.Equals(tagsList.SelectedItem.ToString()))
+                {
+                    addTag.Enabled = false;
+                    break;
+                }
+            }
+        }
+
+        private void addTag_Click(object sender, EventArgs e)
+        {
+            string rawText = File.ReadAllText(tagFiles[tagsList.SelectedIndex]);
+            string name = SubstringFromTo(rawText, 0, rawText.IndexOf("<COLOR>"));
+            string color = SubstringFromTo(rawText, rawText.IndexOf("<COLOR>") + 7, rawText.IndexOf("</COLOR>"));
+            string red = SubstringFromTo(color, 0, indexOfNth(color, "/", 0));
+            string green = SubstringFromTo(color, indexOfNth(color, "/", 0) + 1, indexOfNth(color, "/", 1));
+            string blue = SubstringFromTo(color, indexOfNth(color, "/", 1) + 1, color.Length);
+
+            currentTags.Items.Insert(0, name);
+            currentTags.Items[0].BackColor = Color.FromArgb(Int32.Parse(red), Int32.Parse(green), Int32.Parse(blue));
+            ToggleButton();
+        }
+
+        private void tagsList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ToggleButton();
+        }
+
+        private void tagDoubleClick(object sender, EventArgs e)
+        {
+            if (readOnly) return;
+            currentTags.Items.Remove(currentTags.SelectedItems[0]);
+            ToggleButton();
         }
     }
 }
