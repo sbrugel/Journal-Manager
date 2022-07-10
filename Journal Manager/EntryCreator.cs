@@ -396,6 +396,18 @@ namespace Journal_Manager
             {
                 QuickSave();
             }
+            if (Keyboard.IsKeyDown(Key.B) && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
+            {
+                contentBox.SelectedText = "[b]" + contentBox.SelectedText + "[/b]";
+            }
+            if (Keyboard.IsKeyDown(Key.I) && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
+            {
+                contentBox.SelectedText = "[i]" + contentBox.SelectedText + "[/i]";
+            }
+            if (Keyboard.IsKeyDown(Key.U) && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
+            {
+                contentBox.SelectedText = "[u]" + contentBox.SelectedText + "[/u]";
+            }
         }
         private void OnClose(object sender, FormClosingEventArgs e)
         {
@@ -452,6 +464,13 @@ namespace Journal_Manager
             if (readOnly) return;
             currentTags.Items.Remove(currentTags.SelectedItems[0]);
             ToggleButton();
+        }
+
+        protected override bool ProcessTabKey(bool forward)
+        {
+            if (!contentBox.Focused) return false;
+            contentBox.SelectedText = contentBox.SelectedText + "   ";
+            return false;
         }
     }
 }
