@@ -8,8 +8,9 @@ I made this out of a desire to find a better way to keep a journal, preferring t
 - **An easy way to read over previous entries, delete selected ones, and edit them later on.**
 - **Ability to adjust the display font of entries and the folder from which journal entries are read.**
 - **Ctrl+S can be used to quicksave an entry. If it is a new entry, a new file is created, otherwise, the file being edited is overwritten.**
-- **Basic markdown for journal entries can be used - e.g. [b]Text[/b] will bold text, [h1]Header[/h1] will create a large header, etc.**
-- **Ability to search for a keyword across all saved entries.**
+- **Basic markdown for journal entries can be used - e.g. [b]Text[/b] will bold text, [h1]Header[/h1] will create a large header, etc. Keyboard shortcuts now exist, such as Ctrl+B for bold.**
+- **Ability to create custom entry tags (with colors), and tag entries.**
+- **Ability to search for a keyword or tag across all saved entries.**
 
 No internet connection required. Journal entries are saved locally; if on a Windows machine, you can use the integrated OneDrive feature to work with your journal across multiple of your machnines.
 
@@ -39,10 +40,11 @@ To select a custom color, a color picker will be opened upon choosing the <CUSTO
 ![Journal_Manager_1YvOy7bL9O](https://user-images.githubusercontent.com/58154576/176228000-2bcf5cf7-b588-4741-9ba9-2fc2e2e05910.png)
 
 **You can also format text!** In order to do that, you can use the following tags:
-- Surround text in [b] and [/b] to make the enclosed text **bold.**
-- Surround text in [i] and [/i] to make the enclosed text *italic.*
-- Surround text in [u] and [/u] to make the enclosed text underlined.
+- Surround text in [b] and [/b] to make the enclosed text **bold.** Or you can highlight a selection and press Ctrl+B to make the selection bold.
+- Surround text in [i] and [/i] to make the enclosed text *italic.* Or you can highlight a selection and press Ctrl+I to make the selection italic.
+- Surround text in [u] and [/u] to make the enclosed text underlined. Or you can highlight a selection and press Ctrl+U to make the selection underlined.
 - There are three header tags, [h1], [h2], and [h3] that can make bigger text.
+- Use the TAB key to add in a (fake) indent
 - You can also combine tags! (e.g. to make bold, italicized text)
 
 On the top bar, you can load an existing entry to edit, but note that this will discard any unsaved changes you've made to whatever entry you are currently editing.
@@ -74,6 +76,7 @@ You can also see the previous and next entries easily, if applicable, by pressin
 In the entry viewer window, you can search for a keyword across all saved entries.
 ![Journal_Manager_RnctU9DIb8](https://user-images.githubusercontent.com/58154576/176228960-5516e357-e8cc-4ebe-b1a0-5a46df34c9af.png)
 
+## Creating and Searching for Tags
 
 ## Preferences
 
