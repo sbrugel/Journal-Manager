@@ -40,6 +40,7 @@ namespace Journal_Manager
             this.radioKeyword = new System.Windows.Forms.RadioButton();
             this.radioTag = new System.Windows.Forms.RadioButton();
             this.radioNoTag = new System.Windows.Forms.RadioButton();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.resultsTable)).BeginInit();
             this.SuspendLayout();
             // 
@@ -64,7 +65,7 @@ namespace Journal_Manager
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(158, 112);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(158, 13);
+            this.label2.Size = new System.Drawing.Size(35, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "label2";
             // 
@@ -84,9 +85,9 @@ namespace Journal_Manager
             this.resultsTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Entry,
             this.FileLocation});
-            this.resultsTable.Location = new System.Drawing.Point(12, 136);
+            this.resultsTable.Location = new System.Drawing.Point(12, 153);
             this.resultsTable.Name = "resultsTable";
-            this.resultsTable.Size = new System.Drawing.Size(486, 459);
+            this.resultsTable.Size = new System.Drawing.Size(486, 442);
             this.resultsTable.TabIndex = 4;
             this.resultsTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnRowClick);
             // 
@@ -135,11 +136,21 @@ namespace Journal_Manager
             this.radioNoTag.Text = "Lack of Tag";
             this.radioNoTag.UseVisualStyleBackColor = true;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(78, 137);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(142, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Queries are case insensitive.";
+            // 
             // Search
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(514, 607);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.radioNoTag);
             this.Controls.Add(this.radioTag);
             this.Controls.Add(this.radioKeyword);
@@ -170,5 +181,6 @@ namespace Journal_Manager
         private System.Windows.Forms.RadioButton radioKeyword;
         private System.Windows.Forms.RadioButton radioTag;
         private System.Windows.Forms.RadioButton radioNoTag;
+        private System.Windows.Forms.Label label3;
     }
 }

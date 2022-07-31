@@ -113,6 +113,8 @@ namespace Journal_Manager
         {
             try
             {
+                currentTags.Items.Clear();
+
                 string rawText = File.ReadAllText(toLoad);
                 string contents = SubstringFromTo(rawText, 0, rawText.IndexOf("<TITLE>"));
                 string title = SubstringFromTo(rawText, rawText.IndexOf("<TITLE>") + 7, rawText.IndexOf("</TITLE>"));
@@ -442,6 +444,7 @@ namespace Journal_Manager
 
         private void addTag_Click(object sender, EventArgs e)
         {
+            if (tagsList.SelectedIndex == -1) return;
             string rawText = File.ReadAllText(tagFiles[tagsList.SelectedIndex]);
             string name = SubstringFromTo(rawText, 0, rawText.IndexOf("<COLOR>"));
             string color = SubstringFromTo(rawText, rawText.IndexOf("<COLOR>") + 7, rawText.IndexOf("</COLOR>"));
