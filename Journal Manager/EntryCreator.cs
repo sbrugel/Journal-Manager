@@ -17,7 +17,10 @@ namespace Journal_Manager
 
         string color = "255/255/255";
         string currentlyLoaded;
+
         string savedText;
+        string savedTitle;
+        // List<string> savedTags;
 
         string[] entries;
         List<string> entriesList;
@@ -41,6 +44,7 @@ namespace Journal_Manager
                 tagsList.Items.Add(name);
                 tagFiles.Add(Path.GetFullPath(tag));
             }
+
 
             string font = File.ReadLines(DATA_FILE).ElementAtOrDefault(2);
             contentBox.Font = new Font(fontName, fontSize);
@@ -85,7 +89,8 @@ namespace Journal_Manager
                 Text = readOnly ? "View Entry - " + toLoad : "Edit Entry - " + toLoad;
             } else
             {
-                savedText = ""; // set saved text to empty; we're making a new file
+                savedText = ""; // set saved to empty; we're making a new file
+                savedTitle = "";
                 Text = "Create Entry";
             }
         }
@@ -122,6 +127,7 @@ namespace Journal_Manager
                 string tags = SubstringFromTo(rawText, rawText.IndexOf("<TAGS>") + 6, rawText.IndexOf("</TAGS>")); // if no tags, will show None
 
                 savedText = contents;
+                savedTitle = title;
                 contentBox.Text = contents;
                 titleBox.Text = title.Equals("None") ? "" : title;
                 GetColor();
@@ -135,9 +141,9 @@ namespace Journal_Manager
                         // search through saved tags and find the right one (for color)
                         string tagsDirectory = File.ReadLines(DATA_FILE).ElementAtOrDefault(0) + "\\tags"; // first line
 
-                        string[] savedTags = Directory.GetFiles(tagsDirectory);
+                        string[] entryTags = Directory.GetFiles(tagsDirectory);
 
-                        foreach (string savedTag in savedTags)
+                        foreach (string savedTag in entryTags)
                         {
                             string tagRaw = File.ReadAllText(savedTag);
                             string tagName = SubstringFromTo(tagRaw, 0, tagRaw.IndexOf("<COLOR>"));
@@ -329,6 +335,7 @@ namespace Journal_Manager
             if (currentlyLoaded == "")
                 currentlyLoaded = Path.Combine(saveDirectory, DateTime.Now.ToString("yyyy-MM-dd_HHmmss") + ".entry");
             savedText = contentBox.Text;
+            savedTitle = titleBox.Text;
             SaveFile(currentlyLoaded);
         }
 
@@ -348,20 +355,6 @@ namespace Journal_Manager
             if (result == DialogResult.OK)
             {
                 SaveFile(saveFile.FileName);
-            }
-        }
-
-        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog loadFile = new OpenFileDialog();
-            loadFile.InitialDirectory = saveDirectory;
-            loadFile.Filter = "Journal Entry| *.entry";
-            loadFile.Title = "Load Entry";
-            DialogResult result = loadFile.ShowDialog();
-
-            if (result == DialogResult.OK)
-            {
-                LoadFile(loadFile.FileName);
             }
         }
 
@@ -411,21 +404,27 @@ namespace Journal_Manager
                 contentBox.SelectedText = "[u]" + contentBox.SelectedText + "[/u]";
             }
         }
-        private void OnClose(object sender, FormClosingEventArgs e)
+
+        private char AcceptDiscardChanges()
         {
-            if (readOnly || savedText == null) return;
-            if (!savedText.Equals(contentBox.Text))
+            // i'll find a way to check for different tags later
+            if (!savedText.Equals(contentBox.Text) || !savedTitle.Equals(titleBox.Text))
             {
                 DialogResult dr = MessageBox.Show("You have made changes to your entry since your last save. Unsaved edits will be lost.\n\nSave changes?", "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
-                if (dr == DialogResult.Cancel)
-                {
-                    e.Cancel = true; // cancel closing
-                }
-                else if (dr == DialogResult.Yes)
-                {
-                    QuickSave();
-                }
+                if (dr == DialogResult.Cancel) return 'c';
+                else if (dr == DialogResult.No) return 'n';
+                else if (dr == DialogResult.Yes) return 'y';
             }
+            return 'n'; // no changes made
+        }
+        private void OnClose(object sender, FormClosingEventArgs e)
+        {
+            if (readOnly) return;
+
+            char discardChangesDialog = AcceptDiscardChanges();
+
+            if (discardChangesDialog == 'y') QuickSave();
+            else if (discardChangesDialog == 'c') e.Cancel = true;
         }
 
         private void ToggleButton()

@@ -159,6 +159,7 @@ namespace Journal_Manager
             this.Controls.Add(this.label2);
             this.Controls.Add(this.queryTextBox);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Search";

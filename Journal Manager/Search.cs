@@ -40,6 +40,7 @@ namespace Journal_Manager
                         resultsTable.Rows.Add(new object[] { title, entry });
                     }
                     label2.Text = "Found query in " + filesWithHits + " entr" + (filesWithHits == 1 ? "y" : "ies");
+                    searchButton.Enabled = true;
                 }
             } else if (radioTag.Checked)
             {

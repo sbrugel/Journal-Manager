@@ -35,7 +35,6 @@ namespace Journal_Manager
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.titleLabel = new System.Windows.Forms.Label();
@@ -79,7 +78,6 @@ namespace Journal_Manager
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
-            this.loadToolStripMenuItem,
             this.preferencesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -104,14 +102,6 @@ namespace Journal_Manager
             this.saveAsToolStripMenuItem.ToolTipText = "Save the file as a custom name or overwrite an existing file";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
-            // loadToolStripMenuItem
-            // 
-            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
-            this.loadToolStripMenuItem.Text = "Load";
-            this.loadToolStripMenuItem.ToolTipText = "Load another file to edit - any unsaved changes on the current file will be lost";
-            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
-            // 
             // preferencesToolStripMenuItem
             // 
             this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
@@ -134,7 +124,7 @@ namespace Journal_Manager
             this.titleBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.titleBox.Location = new System.Drawing.Point(128, 31);
-            this.titleBox.MaxLength = 150;
+            this.titleBox.MaxLength = 35;
             this.titleBox.Name = "titleBox";
             this.titleBox.Size = new System.Drawing.Size(656, 20);
             this.titleBox.TabIndex = 4;
@@ -181,7 +171,7 @@ namespace Journal_Manager
             // 
             // nextEntry
             // 
-            this.nextEntry.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.nextEntry.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.nextEntry.Location = new System.Drawing.Point(677, 327);
             this.nextEntry.Name = "nextEntry";
             this.nextEntry.Size = new System.Drawing.Size(107, 23);
@@ -192,6 +182,7 @@ namespace Journal_Manager
             // 
             // addTag
             // 
+            this.addTag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.addTag.Location = new System.Drawing.Point(376, 298);
             this.addTag.Name = "addTag";
             this.addTag.Size = new System.Drawing.Size(75, 23);
@@ -202,6 +193,7 @@ namespace Journal_Manager
             // 
             // tagsList
             // 
+            this.tagsList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.tagsList.FormattingEnabled = true;
             this.tagsList.Location = new System.Drawing.Point(249, 300);
             this.tagsList.Name = "tagsList";
@@ -211,6 +203,8 @@ namespace Journal_Manager
             // 
             // currentTags
             // 
+            this.currentTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.currentTags.HideSelection = false;
             this.currentTags.Location = new System.Drawing.Point(457, 298);
             this.currentTags.Name = "currentTags";
@@ -221,6 +215,7 @@ namespace Journal_Manager
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(457, 327);
             this.label2.Name = "label2";
@@ -263,7 +258,6 @@ namespace Journal_Manager
         private System.Windows.Forms.Label contentLabel;
         private System.Windows.Forms.RichTextBox contentBox;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;

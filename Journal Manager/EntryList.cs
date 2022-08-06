@@ -148,6 +148,10 @@ namespace Journal_Manager
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (!Directory.Exists(saveDirectory))
+            {
+                Directory.CreateDirectory(saveDirectory);
+            }
             new TagList().Show();
         }
     }

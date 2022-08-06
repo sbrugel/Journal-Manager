@@ -52,7 +52,7 @@ namespace Journal_Manager
             // 
             // viewButton
             // 
-            this.viewButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.viewButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.viewButton.Location = new System.Drawing.Point(263, 40);
             this.viewButton.Name = "viewButton";
             this.viewButton.Size = new System.Drawing.Size(97, 23);
@@ -63,7 +63,7 @@ namespace Journal_Manager
             // 
             // editButton
             // 
-            this.editButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.editButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.editButton.Location = new System.Drawing.Point(263, 69);
             this.editButton.Name = "editButton";
             this.editButton.Size = new System.Drawing.Size(97, 23);
@@ -91,7 +91,7 @@ namespace Journal_Manager
             // 
             // refreshButton
             // 
-            this.refreshButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.refreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.refreshButton.Location = new System.Drawing.Point(263, 127);
             this.refreshButton.Name = "refreshButton";
             this.refreshButton.Size = new System.Drawing.Size(97, 23);
@@ -102,7 +102,7 @@ namespace Journal_Manager
             // 
             // deleteButton
             // 
-            this.deleteButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.deleteButton.Location = new System.Drawing.Point(263, 98);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(97, 23);
@@ -113,7 +113,7 @@ namespace Journal_Manager
             // 
             // searchButton
             // 
-            this.searchButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.searchButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.searchButton.Location = new System.Drawing.Point(263, 416);
             this.searchButton.Name = "searchButton";
             this.searchButton.Size = new System.Drawing.Size(97, 22);
@@ -124,7 +124,7 @@ namespace Journal_Manager
             // 
             // button1
             // 
-            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.Location = new System.Drawing.Point(264, 387);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(96, 23);
