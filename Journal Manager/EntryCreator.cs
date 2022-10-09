@@ -86,7 +86,6 @@ namespace Journal_Manager
             if (!toLoad.Equals(""))
             {
                 LoadFile(toLoad);
-                Text = readOnly ? "View Entry - " + toLoad : "Edit Entry - " + toLoad;
             } else
             {
                 savedText = ""; // set saved to empty; we're making a new file
@@ -118,6 +117,8 @@ namespace Journal_Manager
         {
             try
             {
+                Text = readOnly ? "View Entry - " + toLoad : "Edit Entry - " + toLoad;
+
                 currentTags.Items.Clear();
 
                 string rawText = File.ReadAllText(toLoad);
@@ -473,6 +474,23 @@ namespace Journal_Manager
             if (!contentBox.Focused) return false;
             contentBox.SelectedText = contentBox.SelectedText + "   ";
             return false;
+        }
+
+        private void OnContentChange(object sender, EventArgs e)
+        {
+            if (!savedText.Equals(contentBox.Text))
+            {
+                if (Text.Substring(Text.Length - 1) != "*")
+                {
+                    Text += "*";
+                }
+            } else
+            {
+                if (Text.Substring(Text.Length - 1) == "*")
+                {
+                    Text = Text.Substring(0, Text.Length - 1);
+                }
+            }
         }
     }
 }

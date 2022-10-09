@@ -70,6 +70,7 @@ namespace Journal_Manager
             this.contentBox.Size = new System.Drawing.Size(772, 220);
             this.contentBox.TabIndex = 1;
             this.contentBox.Text = "";
+            this.contentBox.TextChanged += new System.EventHandler(this.OnContentChange);
             this.contentBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
             // 
             // menuStrip1
