@@ -19,8 +19,7 @@ namespace Journal_Manager
             if (result == DialogResult.OK)
             {
                 button2.Enabled = true; // unlock button if a directory is chosen
-                string entriesDir = folder.SelectedPath;
-                textBox2.Text = entriesDir;
+                textBox2.Text = folder.SelectedPath;
             }
         }
 

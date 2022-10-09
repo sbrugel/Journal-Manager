@@ -22,6 +22,10 @@ namespace Journal_Manager
             deleteButton.Enabled = false;
             RefreshFiles();
         }
+
+        /// <summary>
+        /// Reload files manually
+        /// </summary>
         private void RefreshFiles()
         {
             try
@@ -94,6 +98,7 @@ namespace Journal_Manager
 
             return offset;
         }
+
         private void viewButton_Click(object sender, EventArgs e) // this goes for both the view button click and a double click on the list
         {
             if (listView1.SelectedIndices.Count == 0) return; // double click when nothing is selected

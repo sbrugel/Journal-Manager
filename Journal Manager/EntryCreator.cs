@@ -10,6 +10,7 @@ namespace Journal_Manager
 {
     public partial class EntryCreator : Form
     {
+        // load in userdata: where to save, font information
         static readonly string DATA_FILE = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\JournalManager\\data.txt";
         string saveDirectory = File.ReadLines(DATA_FILE).ElementAtOrDefault(0); // first line
         int fontSize = Int32.Parse(File.ReadLines(DATA_FILE).ElementAtOrDefault(1));
@@ -26,9 +27,15 @@ namespace Journal_Manager
         List<string> entriesList;
         bool readOnly = false;
 
-        string[] tags;
-        List<string> tagFiles = new List<string>();
+        string[] tags; // name of tags
+        List<string> tagFiles = new List<string>(); // files of tags (to retrieve color/other props)
 
+        /// <summary>
+        /// Constructor for EntryCreator
+        /// </summary>
+        /// <param name="readOnly">If true, the contents of this entry cannot be edited and the user can switch between entries</param>
+        /// <param name="toLoad">Which entry to load contents/info from; if blank, will load an empty entry</param>
+        /// <param name="otherFiles">Other entries to navigate to when using the Previous and Next buttons</param>
         public EntryCreator(bool readOnly, string toLoad = "", string[] otherFiles = null)
         {
             InitializeComponent();
@@ -45,8 +52,6 @@ namespace Journal_Manager
                 tagFiles.Add(Path.GetFullPath(tag));
             }
 
-
-            string font = File.ReadLines(DATA_FILE).ElementAtOrDefault(2);
             contentBox.Font = new Font(fontName, fontSize);
 
             this.readOnly = readOnly;
@@ -93,6 +98,11 @@ namespace Journal_Manager
                 Text = "Create Entry";
             }
         }
+
+        /// <summary>
+        /// Save the file, with a specified name, to the default save directory
+        /// </summary>
+        /// <param name="saveAs">Name of the file</param>
         private void SaveFile(string saveAs)
         {
             try
@@ -113,6 +123,11 @@ namespace Journal_Manager
                 MessageBox.Show("An error occurred while saving: " + ex, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        /// <summary>
+        /// Load in contents/data of a specified file in the default save directory
+        /// </summary>
+        /// <param name="toLoad">Name of the file</param>
         private void LoadFile(String toLoad)
         {
             try
@@ -163,7 +178,7 @@ namespace Journal_Manager
                     }
                 }
 
-                if (readOnly) // format text only if not editing
+                if (readOnly) // format text only if not editing, otherwise show the tags
                 {
                     contents = contents.Replace("[b]", "\\b ");
                     contents = contents.Replace("[/b]", "\\b0 ");
@@ -200,6 +215,11 @@ namespace Journal_Manager
                 MessageBox.Show("An error occurred while loading: " + ex, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        /// <summary>
+        /// Set the display color of the entry. If <CUSTOM> is selected, a color picker will display where the user can pick a color.
+        /// </summary>
+        /// <param name="col">Name of color - can be one of None, Red, Orange, Yellow, Green, Blue, Purple, <CUSTOM></param>
         private void SetColor(string col)
         {
             if (col.Equals("None"))
@@ -246,6 +266,10 @@ namespace Journal_Manager
                 }
             }
         }
+
+        /// <summary>
+        /// Set the dropdown to the correct color when loading in an etry.
+        /// </summary>
         private void GetColor()
         {
             string red = SubstringFromTo(color, 0, indexOfNth(color, "/", 0));
@@ -331,6 +355,9 @@ namespace Journal_Manager
             return offset;
         }
 
+        /// <summary>
+        /// Save the file with an auto-generated name based on system time. Shortcut Ctrl + S
+        /// </summary>
         private void QuickSave()
         {
             if (currentlyLoaded == "")
@@ -364,6 +391,9 @@ namespace Journal_Manager
             SetColor(colorChoice.SelectedItem.ToString());
         }
 
+        /// <summary>
+        /// Switch over to the previous entry in the entries list supplied in constructor, if the entry is opened as read only
+        /// </summary>
         private void previousEntry_Click(object sender, EventArgs e)
         {
             LoadFile(entries[entriesList.IndexOf(currentlyLoaded) - 1]);
@@ -372,6 +402,9 @@ namespace Journal_Manager
             nextEntry.Enabled = (entriesList.IndexOf(currentlyLoaded) != entriesList.Count - 1);
         }
 
+        /// <summary>
+        /// Switch over to the next entry in the entries list supplied in constructor, if the entry is opened as read only
+        /// </summary>
         private void nextEntry_Click(object sender, EventArgs e)
         {
             LoadFile(entries[entriesList.IndexOf(currentlyLoaded) + 1]);
@@ -385,6 +418,9 @@ namespace Journal_Manager
             new PreferencesWin().Show();
         }
 
+        /// <summary>
+        /// Keyboard shortcut handler for bold, italics, underline, and save
+        /// </summary>
         private void OnKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             if (readOnly) return;
@@ -406,6 +442,10 @@ namespace Journal_Manager
             }
         }
 
+        /// <summary>
+        /// If closing an entry with unsaved changes, a dialog will pop up asking whether changes want to be saved
+        /// </summary>
+        /// <returns>[char]: 'y' to save data and close, 'n' to discard and close, 'c' to not close</returns>
         private char AcceptDiscardChanges()
         {
             // i'll find a way to check for different tags later
@@ -418,6 +458,10 @@ namespace Journal_Manager
             }
             return 'n'; // no changes made
         }
+
+        /// <summary>
+        /// Handle closing operation
+        /// </summary>
         private void OnClose(object sender, FormClosingEventArgs e)
         {
             if (readOnly) return;
@@ -428,6 +472,9 @@ namespace Journal_Manager
             else if (discardChangesDialog == 'c') e.Cancel = true;
         }
 
+        /// <summary>
+        /// Enable/disable add tag button depending on if the selected tag is already an included tag
+        /// </summary>
         private void ToggleButton()
         {
             addTag.Enabled = true;
@@ -442,6 +489,9 @@ namespace Journal_Manager
             }
         }
 
+        /// <summary>
+        /// Add a tag to the entry
+        /// </summary>
         private void addTag_Click(object sender, EventArgs e)
         {
             if (tagsList.SelectedIndex == -1) return;
@@ -469,6 +519,10 @@ namespace Journal_Manager
             ToggleButton();
         }
 
+        /// <summary>
+        /// Handle tab key; adds in spaces to entry
+        /// </summary>
+        /// <returns>[bool]: false so the program doesn't switch components</returns>
         protected override bool ProcessTabKey(bool forward)
         {
             if (!contentBox.Focused) return false;
@@ -476,6 +530,9 @@ namespace Journal_Manager
             return false;
         }
 
+        /// <summary>
+        /// If content is changed, add a * to the title to denote unsaved changes; remove it if entries restored to last-saved state
+        /// </summary>
         private void OnContentChange(object sender, EventArgs e)
         {
             if (!savedText.Equals(contentBox.Text))
