@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -12,11 +13,27 @@ namespace Journal_Manager
         static readonly string DATA_FILE = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\JournalManager\\data.txt";
         string saveDirectory = File.ReadLines(DATA_FILE).ElementAtOrDefault(0); // first line
         string[] entries;
+
+        string[] tags;
         public Search()
         {
             InitializeComponent();
             radioKeyword.Checked = true;
             label2.Text = "";
+
+            queryTextBox.Enabled = true;
+            availableTags.Enabled = false;
+
+            string tagsDirectory = saveDirectory + "\\tags";
+            tags = Directory.GetFiles(tagsDirectory);
+            foreach (string tag in tags)
+            {
+                if (!Path.GetExtension(tag).Equals(".tag")) return;
+                string rawText = File.ReadAllText(tag);
+                string name = SubstringFromTo(rawText, 0, rawText.IndexOf("<COLOR>"));
+
+                availableTags.Items.Add(name);
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -25,76 +42,52 @@ namespace Journal_Manager
             int filesWithHits = 0;
             resultsTable.Rows.Clear();
             searchButton.Enabled = false;
-            if (radioKeyword.Checked)
+
+            Thread t = new Thread(delegate ()
             {
                 foreach (string entry in entries)
                 {
                     if (!Path.GetExtension(entry).Equals(".entry")) return;
                     string rawText = File.ReadAllText(entry);
                     string contents = SubstringFromTo(rawText, 0, rawText.IndexOf("<TITLE>"));
+                    string tags = SubstringFromTo(rawText, rawText.IndexOf("<TAGS>") + 6, rawText.IndexOf("</TAGS>"));
                     string title = SubstringFromTo(rawText, rawText.IndexOf("<TITLE>") + 7, rawText.IndexOf("</TITLE>"));
+                    string color = SubstringFromTo(rawText, rawText.IndexOf("<COLOR>") + 7, rawText.IndexOf("</COLOR>"));
+                    string red = SubstringFromTo(color, 0, indexOfNth(color, "/", 0));
+                    string green = SubstringFromTo(color, indexOfNth(color, "/", 0) + 1, indexOfNth(color, "/", 1));
+                    string blue = SubstringFromTo(color, indexOfNth(color, "/", 1) + 1, color.Length);
 
-                    if (contents.IndexOf(queryTextBox.Text, StringComparison.CurrentCultureIgnoreCase) != -1)
+                    string[] tagsList = tags.Split(',');
+                    for (int i = 0; i < tagsList.Length; i++)
+                    {
+                        tagsList[i] = tagsList[i].ToLower();
+                    }
+
+                    bool matchingEntry = false;
+                    if (radioKeyword.Checked)
+                    {
+                        matchingEntry = contents.IndexOf(queryTextBox.Text, StringComparison.CurrentCultureIgnoreCase) != -1;
+                    }
+                    else if (radioTag.Checked)
+                    {
+                        availableTags.Invoke(new MethodInvoker(delegate { matchingEntry = tagsList.Contains(availableTags.SelectedItem.ToString().ToLower()); }));
+                    }
+                    else if (radioNoTag.Checked)
+                    {
+                        availableTags.Invoke(new MethodInvoker(delegate { matchingEntry = !tagsList.Contains(availableTags.SelectedItem.ToString().ToLower()); }));
+                    }
+
+                    if (matchingEntry)
                     {
                         filesWithHits++;
-                        resultsTable.Rows.Add(new object[] { title, entry });
+                        resultsTable.Invoke(new MethodInvoker(delegate { resultsTable.Rows.Add(new object[] { title, entry }); }));
+                        resultsTable.Invoke(new MethodInvoker(delegate { resultsTable.Rows[filesWithHits - 1].DefaultCellStyle.BackColor = Color.FromArgb(Int32.Parse(red), Int32.Parse(green), Int32.Parse(blue)); }));
                     }
-                    label2.Text = "Found query in " + filesWithHits + " entr" + (filesWithHits == 1 ? "y" : "ies");
-                    searchButton.Enabled = true;
+                    label2.Invoke(new MethodInvoker(delegate { label2.Text = "Found query in " + filesWithHits + " entr" + (filesWithHits == 1 ? "y" : "ies"); }));
                 }
-            } else if (radioTag.Checked)
-            {
-                Thread t = new Thread(delegate()
-                {
-                    foreach (string entry in entries)
-                    {
-                        if (!Path.GetExtension(entry).Equals(".entry")) return;
-                        string rawText = File.ReadAllText(entry);
-                        string title = SubstringFromTo(rawText, rawText.IndexOf("<TITLE>") + 7, rawText.IndexOf("</TITLE>"));
-                        string tags = SubstringFromTo(rawText, rawText.IndexOf("<TAGS>") + 6, rawText.IndexOf("</TAGS>"));
-                        string[] tagsList = tags.Split(',');
-                        for (int i = 0; i < tagsList.Length; i++)
-                        {
-                            tagsList[i] = tagsList[i].ToLower();
-                        }
-
-                        if (tagsList.Contains(queryTextBox.Text.ToLower()))
-                        {
-                            filesWithHits++;
-                            resultsTable.Invoke(new MethodInvoker(delegate { resultsTable.Rows.Add(new object[] { title, entry });  }));
-                        }
-                    }
-                    label2.Invoke(new MethodInvoker(delegate { label2.Text = "Found query in " + filesWithHits + " entr" + (filesWithHits == 1 ? "y" : "ies"); }));
-                    searchButton.Invoke(new MethodInvoker(delegate { searchButton.Enabled = true; }));
-                });
-                t.Start();
-            } else if (radioNoTag.Checked)
-            {
-                Thread t = new Thread(delegate ()
-                {
-                    foreach (string entry in entries)
-                    {
-                        if (!Path.GetExtension(entry).Equals(".entry")) return;
-                        string rawText = File.ReadAllText(entry);
-                        string title = SubstringFromTo(rawText, rawText.IndexOf("<TITLE>") + 7, rawText.IndexOf("</TITLE>"));
-                        string tags = SubstringFromTo(rawText, rawText.IndexOf("<TAGS>") + 6, rawText.IndexOf("</TAGS>"));
-                        string[] tagsList = tags.Split(',');
-                        for (int i = 0; i < tagsList.Length; i++)
-                        {
-                            tagsList[i] = tagsList[i].ToLower();
-                        }
-
-                        if (!tagsList.Contains(queryTextBox.Text.ToLower()))
-                        {
-                            filesWithHits++;
-                            resultsTable.Invoke(new MethodInvoker(delegate { resultsTable.Rows.Add(new object[] { title, entry }); }));
-                        }
-                    }
-                    label2.Invoke(new MethodInvoker(delegate { label2.Text = "Found query in " + filesWithHits + " entr" + (filesWithHits == 1 ? "y" : "ies"); }));
-                    searchButton.Invoke(new MethodInvoker(delegate { searchButton.Enabled = true; }));
-                });
-                t.Start();
-            }
+                searchButton.Invoke(new MethodInvoker(delegate { searchButton.Enabled = true; }));
+            });
+            t.Start();
         }
 
         /// <summary>
@@ -145,6 +138,24 @@ namespace Journal_Manager
         private void OnRowClick(object sender, DataGridViewCellEventArgs e)
         {
             new EntryCreator(true, resultsTable.Rows[e.RowIndex].Cells[1].Value.ToString(), entries).Show();
+        }
+
+        private void radioKeyword_CheckedChanged(object sender, EventArgs e)
+        {
+            queryTextBox.Enabled = true;
+            availableTags.Enabled = false;
+        }
+
+        private void radioTag_CheckedChanged(object sender, EventArgs e)
+        {
+            queryTextBox.Enabled = false;
+            availableTags.Enabled = true;
+        }
+
+        private void radioNoTag_CheckedChanged(object sender, EventArgs e)
+        {
+            queryTextBox.Enabled = false;
+            availableTags.Enabled = true;
         }
     }
 }

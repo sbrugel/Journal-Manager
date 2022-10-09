@@ -41,6 +41,7 @@ namespace Journal_Manager
             this.radioTag = new System.Windows.Forms.RadioButton();
             this.radioNoTag = new System.Windows.Forms.RadioButton();
             this.label3 = new System.Windows.Forms.Label();
+            this.availableTags = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.resultsTable)).BeginInit();
             this.SuspendLayout();
             // 
@@ -57,7 +58,7 @@ namespace Journal_Manager
             // 
             this.queryTextBox.Location = new System.Drawing.Point(78, 81);
             this.queryTextBox.Name = "queryTextBox";
-            this.queryTextBox.Size = new System.Drawing.Size(424, 20);
+            this.queryTextBox.Size = new System.Drawing.Size(275, 20);
             this.queryTextBox.TabIndex = 1;
             // 
             // label2
@@ -113,6 +114,7 @@ namespace Journal_Manager
             this.radioKeyword.TabStop = true;
             this.radioKeyword.Text = "Keyword";
             this.radioKeyword.UseVisualStyleBackColor = true;
+            this.radioKeyword.CheckedChanged += new System.EventHandler(this.radioKeyword_CheckedChanged);
             // 
             // radioTag
             // 
@@ -124,6 +126,7 @@ namespace Journal_Manager
             this.radioTag.TabStop = true;
             this.radioTag.Text = "Tag";
             this.radioTag.UseVisualStyleBackColor = true;
+            this.radioTag.CheckedChanged += new System.EventHandler(this.radioTag_CheckedChanged);
             // 
             // radioNoTag
             // 
@@ -135,6 +138,7 @@ namespace Journal_Manager
             this.radioNoTag.TabStop = true;
             this.radioNoTag.Text = "Lack of Tag";
             this.radioNoTag.UseVisualStyleBackColor = true;
+            this.radioNoTag.CheckedChanged += new System.EventHandler(this.radioNoTag_CheckedChanged);
             // 
             // label3
             // 
@@ -145,11 +149,20 @@ namespace Journal_Manager
             this.label3.TabIndex = 8;
             this.label3.Text = "Queries are case insensitive.";
             // 
+            // availableTags
+            // 
+            this.availableTags.FormattingEnabled = true;
+            this.availableTags.Location = new System.Drawing.Point(359, 81);
+            this.availableTags.Name = "availableTags";
+            this.availableTags.Size = new System.Drawing.Size(139, 21);
+            this.availableTags.TabIndex = 9;
+            // 
             // Search
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(514, 607);
+            this.Controls.Add(this.availableTags);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.radioNoTag);
             this.Controls.Add(this.radioTag);
@@ -183,5 +196,6 @@ namespace Journal_Manager
         private System.Windows.Forms.RadioButton radioTag;
         private System.Windows.Forms.RadioButton radioNoTag;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox availableTags;
     }
 }
