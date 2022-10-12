@@ -116,6 +116,10 @@ namespace Journal_Manager
                     tagNames.Add(tag.Text);
                 }
                 File.AppendAllText(saveAs, "<TAGS>" + String.Join(",", tagNames) + "</TAGS>");
+                if (Text.Substring(Text.Length - 1) == "*")
+                {
+                    Text = Text.Substring(0, Text.Length - 1);
+                }
                 MessageBox.Show("Saved as " + saveAs, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -535,6 +539,8 @@ namespace Journal_Manager
         /// </summary>
         private void OnContentChange(object sender, EventArgs e)
         {
+            if (readOnly) return;
+
             if (!savedText.Equals(contentBox.Text))
             {
                 if (Text.Substring(Text.Length - 1) != "*")
